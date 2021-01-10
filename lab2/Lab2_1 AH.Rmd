@@ -1,0 +1,72 @@
+---
+title: "Lab2_1 AH"
+author: "Aryss Hearne"
+date: "1/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+x <- 42
+```
+```{r}
+x
+```
+```{r}
+treatment <- 36
+control <- 38
+my_experiment <- sum(treatment,control)
+my_experiment
+```
+```{r}
+e <- 12
+```
+```{r}
+my_numeric <- 42
+my_integer <- 2L #adding an L automatically denotes an integer
+my_character <- "universe"
+my_logical <- FALSE
+my_complex <- 2+4i
+```
+
+```{r}
+class(my_numeric)
+```
+```{r}
+is.integer(my_numeric) #is My-numeric an integer?
+```
+```{r}
+my_integer <- 
+  as.integer(my_numeric) #create a new object specified as an integer
+is.integer(my_integer) #is my_numeric an integer?
+```
+
+```{r}
+my_missing <- NA
+is.na(my_missing)
+```
+```{r}
+anyNA(my_missing)
+```
+#Practice
+
+```{r}
+new_vector <- c(7, 6.2, 5, 9, NA, 4, 9.8, 7, 3, 2)
+mean(new_vector)
+```
+##### 3. How do you interpret this result? What does this mean about NAs?
+
+*Seems like NAs will void an entire set of numbers if you're trying to arithmetically manipulate the set.*
+
+##### 4. Recalculate the mean using the following code chunk. Why is the useful?
+
+```{r}
+mean(new_vector, na.rm=T) #na.rm removes the NA values in the vector
+```
+
+*this is super helpful because if you're working with a set of numbers you know to have a NA or, alternatively, if you're working with a set of numbers that's large enough that there's ambigiouty around whether or not there's an NA, you can simply run this code to nixx any NAs which might cause issues.* 
+
+
