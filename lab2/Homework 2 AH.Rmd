@@ -56,17 +56,17 @@ Bluebell_Mean <- mean(Bluebell)
 Opal <- spring_matrix[2,]
 Opal_mean <- mean(Opal)
 Riverside <- spring_matrix[3,]
-Riverside_mean <- mean(Opal)
+Riverside_mean <- mean(Riverside)
 Hot <- spring_matrix[4,]
-Hot_mean <- mean(Opal)
+Hot_mean <- mean(Hot)
 Mystery <- spring_matrix[5,]
-Mystery_mean <- mean(Opal)
+Mystery_mean <- mean(Mystery)
 Emerald <- spring_matrix[6,]
-Emerald_mean <- mean(Opal)
+Emerald_mean <- mean(Emerald)
 Black <- spring_matrix[7,]
-Black_mean <- mean(Opal)
+Black_mean <- mean(Black)
 Pearl <- spring_matrix[8,]
-Pearl_mean <- mean(Opal)
+Pearl_mean <- mean(Pearl)
 Mean_Temp <- c(Bluebell_Mean,Opal_mean,Riverside_mean,Hot_mean,Mystery_mean,Emerald_mean, Black_mean, Pearl_mean)
 Mean_Temp
 ```

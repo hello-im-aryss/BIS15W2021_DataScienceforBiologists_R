@@ -437,20 +437,20 @@ Bluebell_Mean &lt;- mean(Bluebell)
 Opal &lt;- spring_matrix[2,]
 Opal_mean &lt;- mean(Opal)
 Riverside &lt;- spring_matrix[3,]
-Riverside_mean &lt;- mean(Opal)
+Riverside_mean &lt;- mean(Riverside)
 Hot &lt;- spring_matrix[4,]
-Hot_mean &lt;- mean(Opal)
+Hot_mean &lt;- mean(Hot)
 Mystery &lt;- spring_matrix[5,]
-Mystery_mean &lt;- mean(Opal)
+Mystery_mean &lt;- mean(Mystery)
 Emerald &lt;- spring_matrix[6,]
-Emerald_mean &lt;- mean(Opal)
+Emerald_mean &lt;- mean(Emerald)
 Black &lt;- spring_matrix[7,]
-Black_mean &lt;- mean(Opal)
+Black_mean &lt;- mean(Black)
 Pearl &lt;- spring_matrix[8,]
-Pearl_mean &lt;- mean(Opal)
+Pearl_mean &lt;- mean(Pearl)
 Mean_Temp &lt;- c(Bluebell_Mean,Opal_mean,Riverside_mean,Hot_mean,Mystery_mean,Emerald_mean, Black_mean, Pearl_mean)
 Mean_Temp</code></pre>
-<pre><code>## [1] 35.65000 34.61667 34.61667 34.61667 34.61667 34.61667 34.61667 34.61667</code></pre>
+<pre><code>## [1] 35.65000 34.61667 29.85000 39.46667 30.85000 30.20000 32.73333 35.46667</code></pre>
 </div>
 <div id="add-this-as-a-new-column-in-the-data-matrix." class="section level5">
 <h5>7. Add this as a new column in the data matrix.</h5>
@@ -459,12 +459,12 @@ spring_matrix</code></pre>
 <pre><code>##                   Jill Steve Susan Mean_Temp
 ## Bluebell Spring  36.25 35.40 35.30  35.65000
 ## Opal Spring      35.15 35.35 33.35  34.61667
-## Riverside Spring 30.70 29.65 29.20  34.61667
-## Too Hot Spring   39.70 40.05 38.65  34.61667
-## Mystery Spring   31.85 31.40 29.30  34.61667
-## Emerald Spring   30.20 30.65 29.75  34.61667
-## Black Spring     32.90 32.50 32.80  34.61667
-## Pearl Spring     36.80 36.45 33.15  34.61667</code></pre>
+## Riverside Spring 30.70 29.65 29.20  29.85000
+## Too Hot Spring   39.70 40.05 38.65  39.46667
+## Mystery Spring   31.85 31.40 29.30  30.85000
+## Emerald Spring   30.20 30.65 29.75  30.20000
+## Black Spring     32.90 32.50 32.80  32.73333
+## Pearl Spring     36.80 36.45 33.15  35.46667</code></pre>
 </div>
 <div id="show-susans-value-for-opal-spring-only." class="section level5">
 <h5>8. Show Susan’s value for Opal Spring only.</h5>
@@ -476,12 +476,12 @@ spring_matrix</code></pre>
 <pre><code>##                   Jill Steve Susan Mean_Temp
 ## Bluebell Spring  36.25 35.40 35.30  35.65000
 ## Opal Spring      35.15 35.35 33.35  34.61667
-## Riverside Spring 30.70 29.65 29.20  34.61667
-## Too Hot Spring   39.70 40.05 38.65  34.61667
-## Mystery Spring   31.85 31.40 29.30  34.61667
-## Emerald Spring   30.20 30.65 29.75  34.61667
-## Black Spring     32.90 32.50 32.80  34.61667
-## Pearl Spring     36.80 36.45 33.15  34.61667
+## Riverside Spring 30.70 29.65 29.20  29.85000
+## Too Hot Spring   39.70 40.05 38.65  39.46667
+## Mystery Spring   31.85 31.40 29.30  30.85000
+## Emerald Spring   30.20 30.65 29.75  30.20000
+## Black Spring     32.90 32.50 32.80  32.73333
+## Pearl Spring     36.80 36.45 33.15  35.46667
 ## SusanOpal           NA    NA 33.35        NA</code></pre>
 </div>
 <div id="calcualte-the-mean-for-jills-column-only" class="section level5">
@@ -494,12 +494,12 @@ spring_matrix</code></pre>
 <pre><code>##                      Jill Steve Susan Mean_Temp
 ## Bluebell Spring  36.25000 35.40 35.30  35.65000
 ## Opal Spring      35.15000 35.35 33.35  34.61667
-## Riverside Spring 30.70000 29.65 29.20  34.61667
-## Too Hot Spring   39.70000 40.05 38.65  34.61667
-## Mystery Spring   31.85000 31.40 29.30  34.61667
-## Emerald Spring   30.20000 30.65 29.75  34.61667
-## Black Spring     32.90000 32.50 32.80  34.61667
-## Pearl Spring     36.80000 36.45 33.15  34.61667
+## Riverside Spring 30.70000 29.65 29.20  29.85000
+## Too Hot Spring   39.70000 40.05 38.65  39.46667
+## Mystery Spring   31.85000 31.40 29.30  30.85000
+## Emerald Spring   30.20000 30.65 29.75  30.20000
+## Black Spring     32.90000 32.50 32.80  32.73333
+## Pearl Spring     36.80000 36.45 33.15  35.46667
 ## SusanOpal              NA    NA 33.35        NA
 ## Mean_Temp_Jill   34.19375    NA    NA        NA</code></pre>
 </div>
@@ -512,15 +512,15 @@ spring_matrix</code></pre>
 <pre><code>##                      Jill Steve Susan Mean_Temp
 ## Bluebell Spring  36.25000 35.40 35.30  35.65000
 ## Opal Spring      35.15000 35.35 33.35  34.61667
-## Riverside Spring 30.70000 29.65 29.20  34.61667
-## Too Hot Spring   39.70000 40.05 38.65  34.61667
-## Mystery Spring   31.85000 31.40 29.30  34.61667
-## Emerald Spring   30.20000 30.65 29.75  34.61667
-## Black Spring     32.90000 32.50 32.80  34.61667
-## Pearl Spring     36.80000 36.45 33.15  34.61667
+## Riverside Spring 30.70000 29.65 29.20  29.85000
+## Too Hot Spring   39.70000 40.05 38.65  39.46667
+## Mystery Spring   31.85000 31.40 29.30  30.85000
+## Emerald Spring   30.20000 30.65 29.75  30.20000
+## Black Spring     32.90000 32.50 32.80  32.73333
+## Pearl Spring     36.80000 36.45 33.15  35.46667
 ## SusanOpal              NA    NA 33.35        NA
 ## Mean_Temp_Jill   34.19375    NA    NA        NA
-## Avg_temp               NA    NA    NA  34.74583</code></pre>
+## Avg_temp               NA    NA    NA  33.60417</code></pre>
 </div>
 
 
