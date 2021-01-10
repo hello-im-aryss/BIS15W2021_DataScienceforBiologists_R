@@ -1,0 +1,26 @@
+---
+title: "**RMarkdown Practice**"
+author: "Author | Aryss Hearne"
+date: "1/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## **[Bis15L Website](https://jmledford3115.github.io/datascibiol/)** | **[Contact](mailto:https://jmledford3115.github.io/datascibiol/jmledford@ucdavis.edu)**
+> #### "2021 will be better than 2020," they said with all the cairvoyance of a pea.
+
+### ***Some maths***
+```{r}
+2+2; 3+3; ((4+5/7)+(8*9))/3
+!9
+```
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
+
