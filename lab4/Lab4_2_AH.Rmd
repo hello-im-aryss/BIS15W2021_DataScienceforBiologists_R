@@ -1,0 +1,101 @@
+---
+title: "4_2_AH"
+author: "Aryss Hearne"
+date: "1/14/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+fish<-readr::read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+
+```{r}
+mammals <- readr::read_csv("data/mammal_lifehistories_v2.csv")
+```
+
+```{r}
+mammals <- rename(mammals, genus=Genus, wean_mass="wean mass", max_life="max. life", litter_size="litter size", litters_per_year="litters/year")
+```
+
+```{r}
+filter(fish, lakeid =="AL")
+```
+
+```{r}
+filter(fish, length>=350)
+```
+
+```{r}
+filter(fish, lakeid!="AL")
+```
+
+```{r}
+filter(fish, length%in% c(167,175))
+```
+
+```{r}
+filter(fish, between(scalelength, 2.5, 2.55))
+```
+
+```{r}
+filter(fish, near(radii_length_mm, 2, tol=0.2))
+```
+
+```{r}
+filter(fish, lakeid=="BO")
+```
+
+```{r}
+filter(fish, lakeid!="AR")
+```
+
+```{r}
+filter(fish, near(scalelength, 8, tol=0.25))
+```
+
+```{r}
+filter(fish, between(scalelength, 2, 4))
+```
+
+```{r}
+filter(fish, lakeid=="AL" & length>350)
+```
+
+```{r}
+filter(fish, lakeid=="AL" | length > 350)
+```
+
+```{r}
+glimpse(mammals)
+```
+
+```{r}
+names(mammals)
+```
+
+```{r}
+filter(mammals, family=="Bovidae"&mass>=450000)
+```
+
+```{r}
+select(mammals, genus,mass,gestation,newborn)
+filter(mammals, genus=="Lophocebus"| genus=="Erythrocebus"| genus=="Macaca")
+```
+
+```{r}
+x<-select(mammals, genus,mass,gestation,newborn)
+y<-filter(x, genus=="Lophocebus"| genus=="Erythrocebus"| genus=="Macaca")
+min(y$newborn)
+```
+
+*Cercopithecidae Macaca Maura has the smallest newborn weight*
