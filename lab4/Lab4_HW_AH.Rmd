@@ -1,0 +1,220 @@
+---
+title: "HW4_AH"
+author: "Aryss Hearne"
+date: "1/14/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+#### 1. Load the data into a new object called `homerange`.
+
+```{r}
+homerange <- readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+#### 2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.
+
+```{r}
+glimpse(homerange)
+```
+```{r}
+dim(homerange)
+```
+```{r}
+names(homerange)
+```
+```{r}
+homerange2<-rename(homerange, taxon=taxon, common_name=common.name, class=class, order=order, family=family, genus=genus, species=species, primary_method=primarymethod, n=N, mean_mass_g=mean.mass.g, log10_mass=log10.mass, alternative_mass_reference=alternative.mass.reference, mean_hra_m2=mean.hra.m2, log10_hra=log10.hra, hra_reference=hra.reference, realm=realm, thermoregulation=thermoregulation, locomtion=locomotion, trophic_guild=trophic.guild, dimension=dimension, preymass=preymass, log10_preymass=log10.preymass, ppmr=PPMR, prey_size_reference=prey.size.reference)
+names(homerange2)
+```
+
+
+
+```{r}
+str(homerange2)
+```
+
+#### 3. Change the class of the variables `taxon` and `order` to factors and display their levels.
+
+```{r}
+homerange2$taxon<-as.factor(homerange2$taxon)
+homerange2$order<-as.factor(homerange2$order)
+```
+
+#### 4. What taxa are represented in the `homerange` data frame? Make a new data frame taxa that is restricted to taxon, common name, class, order, family, genus, species.
+
+```{r}
+levels(homerange2$taxon)
+```
+```{r}
+taxa<-select(homerange2, taxon, common_name, class, order, family, genus, species)
+taxa
+```
+
+#### 5. The variable `taxon` identifies the large, common name groups of the species represented in homerange. Make a table the shows the counts for each of these `taxon`.
+
+```{r}
+#birds
+#taxon 1/9
+tweet<-grepl("birds", taxa$taxon)
+tweeter<-filter(taxa, taxon=="birds")
+tweeter$taxa_recorded <- c(sum(tweet))
+tweeter
+```
+
+```{r}
+#lake fishes
+#taxon 2/9
+puddle_fin<-grepl("lake fishes", taxa$taxon)
+splish<-filter(taxa, taxon=="lake fishes")
+splish$taxa_recorded <-c(sum(puddle_fin))
+splish
+```
+
+
+```{r}
+#lizards
+#taxon 3/9
+scaly_boi<-grepl("lizards", taxa$taxon)
+parthenogenisis<-filter(taxa, taxon=="lizards")
+parthenogenisis$taxa_recorded <-c(sum(scaly_boi))
+parthenogenisis
+```
+
+
+```{r}
+#mammals
+#taxon 4/9
+mittens<-grepl("mammals", taxa$taxon)
+snuggle_time<-filter(taxa, taxon=="mammals")
+snuggle_time$taxa_recorded <-c(sum(mittens))
+snuggle_time
+```
+
+
+```{r}
+#marine fishes
+#taxon 5/9
+salt_face<-grepl("marine fishes", taxa$taxon)
+fish_and_chips<-filter(taxa, taxon=="marine fishes")
+fish_and_chips$taxa_recorded <-c(sum(salt_face))
+fish_and_chips
+```
+
+
+```{r}
+#river fishes
+#taxon 6/9
+fresh_fins<-grepl("river fishes", taxa$taxon)
+salmon_run<-filter(taxa, taxon=="river fishes")
+salmon_run$taxa_recorded <-c(sum(fresh_fins))
+salmon_run
+```
+
+
+```{r}
+#snakes
+#taxon 7/9
+danger_noodle<-grepl("snakes", taxa$taxon)
+wiggle_boi<-filter(taxa, taxon=="snakes")
+wiggle_boi$taxa_recorded <-c(sum(danger_noodle))
+wiggle_boi
+```
+
+
+```{r}
+#tortoises
+#taxon 8/9
+slow_boi<-grepl("tortoises", taxa$taxon)
+winner_winner<-filter(taxa, taxon=="tortoises")
+winner_winner$taxa_recorded <- c(sum(slow_boi))
+winner_winner
+```
+
+```{r}
+#turtles
+#taxon 9/9 yay!
+pond_bb<-grepl("turtles", taxa$taxon)
+splash<-filter(taxa, taxon=="turtles")
+splash$taxa_recorded <- c(sum(pond_bb))
+splash
+```
+
+```{r}
+taxa_take2 <- rbind(tweeter, splish, parthenogenisis, snuggle_time, fish_and_chips, salmon_run, wiggle_boi, winner_winner, splash)
+taxa_take2
+```
+
+#### 6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild?
+
+```{r}
+homerange2$trophic_guild<-as.factor(homerange2$trophic_guild)
+levels(homerange2$trophic_guild)
+filter(homerange2, trophic_guild=="carnivore")
+```
+*There are 24 carnivores*
+```{r}
+filter(homerange2, trophic_guild=="herbivore")
+```
+*And 227 herbivores*
+
+```{r}
+filter(homerange2, trophic_guild!="herbivore",trophic_guild!="carnivore")
+```
+#### 7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.
+
+```{r}
+meat_munch<-filter(homerange2, trophic_guild=="carnivore")
+vegan<-filter(homerange2, trophic_guild=="herbivore")
+meat_munch
+```
+```{r}
+vegan
+```
+
+#### 8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.
+
+```{r}
+mean(meat_munch$mean_hra_m2, na.rm = T)
+```
+```{r}
+mean(vegan$mean_hra_m2, na.rm=T)
+```
+*Looks like the herbivores have a larger mean.hra.m2.*
+
+#### 9. Make a new dataframe `deer` that is limited to the mean mass, log10 mass, family, genus, and species of deer in the database. The family for deer is cervidae. Arrange the data in descending order by log10 mass. Which is the largest deer? What is its common name?
+
+```{r}
+names(homerange2)
+```
+```{r}
+homerange3<-select(homerange2,common_name,family,genus,species,mean_mass_g,log10_mass)
+deer<-filter(homerange3, family=="cervidae")
+deer
+```
+```{r}
+sort(deer$log10_mass, decreasing = T)
+```
+*The largest deer's log10_mass is 5.48746. This corresponds to to the alces alces, the Moose!*
+
+#### 10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it! Snake is found in taxon column
+
+```{r}
+homerange4<-select(homerange2, taxon,common_name,class,order,family,genus,species,mean_hra_m2)
+snek<-filter(homerange4, taxon=="snakes")
+snek
+```
+```{r}
+sort(snek$mean_hra_m2, decreasing=F)
+```
+```{r}
+filter(snek, mean_hra_m2==200.00)
+```
+*The namaque dwarf adder, spotted dwarf adder, or Schneider's adder is this little brown guy withblackish speckles. They like to hang out in Namibia, specifically on dunes near Luderitz. The description listed on Wikipedia mentions that this viper is the smallest viperid and chocks up the tiny homerange to low seasonality. He is smoll but very scary. Do not get bit.* 
