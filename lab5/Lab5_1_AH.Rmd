@@ -1,0 +1,121 @@
+---
+title: "Lab 5_1 AH"
+author: "Aryss Hearne"
+date: "1/19/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library("tidyverse")
+```
+```{r}
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+```{r}
+glimpse(fish)
+```
+```{r}
+mammals<-readr::read_csv("data/mammal_lifehistories_v2.csv")
+```
+```{r}
+glimpse(mammals)
+```
+```{r}
+mammals<-rename(mammals, genus="Genus", wean_mass="wean mass", max_life="max. life", litter_size="litter size", litters_per_year="litters/year")
+```
+
+
+```{r}
+fish %>%
+  select(lakeid, scalelength)%>%
+  filter(lakeid=="AL")
+```
+```{r}
+mammals%>%
+  select(family, genus, species, gestation)%>%
+  filter(gestation>=15)
+```
+
+```{r}
+fish%>%
+  select(lakeid, radii_length_mm)%>%
+  filter(lakeid=="AL" | lakeid=="AR")%>%
+  filter(radii_length_mm>=2 & radii_length_mm<=4)
+```
+
+```{r}
+fish %>%
+  arrange(scalelength)
+```
+
+```{r}
+fish %>%
+  arrange(desc(scalelength))
+```
+
+```{r}
+fish %>%
+  select(lakeid, length, fish_id, scalelength) %>%
+  filter(lakeid=="AL")%>%
+  arrange(fish_id)
+```
+```{r}
+fish%>%
+  select(lakeid, fish_id, radii_length_mm, scalelength)%>%
+  filter(fish_id==300)%>%
+  arrange(radii_length_mm)
+```
+
+```{r}
+fish%>%
+  mutate(length_mm=length*10)%>%
+  select(fish_id, length, length_mm)
+```
+
+```{r}
+mammals
+```
+```{r}
+mammals%>%
+  mutate_all(tolower)
+```
+ 
+```{r}
+mammals%>%
+  select(genus, species, newborn)%>%
+  arrange(newborn)
+```
+ 
+```{r}
+mammals %>%
+  select(genus, species, newborn)%>%
+  mutate(newborn_new = ifelse(newborn== -999.00, NA, newborn))
+```
+ 
+```{r}
+fish
+```
+ 
+```{r}
+fish%>%
+  mutate(length_half= length/2)%>%
+  select(fish_id, length, length_half)
+```
+ 
+ 
+```{r}
+mammals %>%
+  select(family, genus, species, max_life)%>%
+  mutate(max_life_new = ifelse(max_life==-999.0, NA, max_life))%>%
+  select(family, genus, species, max_life_new)%>%
+  arrange(desc(max_life_new))
+
+```
+ 
+*the Balaenopteridae Balaenoptera Physalus is the oldest known life span at 1368 years.*
+ 
