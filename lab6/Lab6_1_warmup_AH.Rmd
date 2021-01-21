@@ -1,0 +1,152 @@
+---
+title: "R_warmup_6_1"
+author: "Aryss Hearne"
+date: "1/21/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+library("janitor")
+```
+```{r}
+#install.packages("skimr")
+library("skimr")
+```
+
+
+```{r}
+?msleep
+names(msleep)
+```
+```{r}
+remotes::install_github("allisonhorst/palmerpenguins")
+```
+# dplyr Practice
+#### 1. Let’s do a bit more practice to make sure that we understand `select()`, `filter()`, and `mutate()`. Start by building a new data frame `msleep24` from the `msleep` data that: contains the `name` and `vore` variables along with a new column called `sleep_total_24` which is the amount of time a species sleeps expressed as a proportion of a `24-hour day`. Remove any rows with NA’s and restrict the `sleep_total_24` values to less than 0.3. Arrange the output in descending order.
+
+```{r}
+msleep%>%
+  mutate(sleep_total_24=sleep_total/24)%>%
+  select(name, vore, sleep_total_24)%>%
+  filter(sleep_total_24<=0.3)%>%
+  na.omit(msleep)%>%
+  arrange(desc(sleep_total_24))
+```
+
+```{r}
+summary(msleep)
+```
+```{r}
+skim(msleep)
+```
+#Practice
+#### Which taxonomic orders have species that belong to more than one class of `vore`? 
+
+
+```{r}
+msleep%>%
+  select(name, genus, order, vore)%>%
+  filter(vore!="herbi"&vore!="carni")
+```
+
+*I dunno - all of these species only have one class of vore - I'm not sure what this question is asking*
+
+```{r}
+head(msleep)
+```
+```{r}
+large<-
+  msleep%>%
+  select(name, genus, bodywt, sleep_total)%>%
+  filter(bodywt>200)%>%
+  arrange(desc(bodywt))
+large
+```
+```{r}
+mean(large$sleep_total)
+```
+
+```{r}
+msleep %>% 
+  filter(bodywt > 200) %>%
+  summarize(mean_sleep_lg = mean(sleep_total))
+```
+```{r}
+msleep %>% 
+    filter(bodywt > 200) %>% 
+    summarize(mean_sleep_lg = mean(sleep_total), 
+              min_sleep_lg = min(sleep_total),
+              max_sleep_lg = max(sleep_total),
+              total = n())
+```
+
+```{r}
+msleep%>%
+  filter(order=="Primates")%>%
+  summarize(mean_bodyweight = mean(bodywt),
+            min_bodyweight = min(bodywt),
+            max_bodyweight = max(bodywt),
+            total=n())
+```
+```{r}
+msleep%>%
+  filter(bodywt>100)%>%
+  summarise(n_genera=n_distinct(genus))
+```
+#Practice
+#### 1. How many genera are represented in the msleep data frame?
+
+```{r}
+msleep%>%
+  summarise(n_genera=n_distinct(genus))
+```
+#### 2. What are the min, max, and mean `sleep_total` for all of the mammals? Be sure to include the total n.
+
+```{r}
+msleep%>%
+  select(name, sleep_total)%>%
+  summarize(mean_sleep=mean(sleep_total),
+            max_sleep=max(sleep_total),
+            min_sleep=min(sleep_total),
+            total=n())
+```
+
+```{r}
+msleep%>%
+  group_by(vore)%>%
+  summarize(min_bodywt=min(bodywt),
+            max_bodywt=max(bodywt),
+            mean_bodywt=mean(bodywt),
+            total=n())
+```
+
+# Practice
+#### 1. Calculate mean brain weight by taxonoimc order in the msleep data. 
+
+```{r}
+msleep%>%
+  group_by(order)%>%
+  summarize(big_brain_time=mean(brainwt),
+            total=n())
+```
+
+#### 2. What does `NA` mean? How are NAs being treated by the summarize function? 
+*NAs are being treated as function-canceling data.*
+
+#### 3. Try running the code again, but this time add `na.rm=TRUE`. What is the problem with Cetacea? Compare this to Carnivora.
+
+```{r}
+msleep%>%
+  group_by(order)%>%
+  summarize(big_brain_time=mean(brainwt),
+            total=n())
+
+```
+
