@@ -152,6 +152,11 @@ taxa_take2 <- rbind(tweeter, splish, parthenogenisis, snuggle_time, fish_and_chi
 taxa_take2
 ```
 
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
 #### 6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild?
 
 ```{r}
@@ -168,6 +173,9 @@ filter(homerange2, trophic_guild=="herbivore")
 ```{r}
 filter(homerange2, trophic_guild!="herbivore",trophic_guild!="carnivore")
 ```
+</div>
+
+
 #### 7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.
 
 ```{r}

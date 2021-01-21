@@ -19,10 +19,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.2     √ purrr   0.3.4
+## √ tibble  3.0.4     √ dplyr   1.0.2
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.0
 ```
 
 ```
@@ -519,6 +519,11 @@ taxa_take2
 ## # ... with 559 more rows
 ```
 
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
 #### 6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild?
 
 
@@ -598,6 +603,9 @@ filter(homerange2, trophic_guild!="herbivore",trophic_guild!="carnivore")
 ## #   trophic_guild <fct>, dimension <chr>, preymass <dbl>, log10_preymass <dbl>,
 ## #   ppmr <dbl>, prey_size_reference <chr>
 ```
+</div>
+
+
 #### 7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.
 
 
