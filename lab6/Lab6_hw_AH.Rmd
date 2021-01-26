@@ -1,0 +1,126 @@
+---
+title: "Lab_6_HW_AH"
+author: "Aryss Hearne"
+date: "1/25/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+library("janitor")
+library("skimr")
+```
+
+#### Load the data `FAO_1950to2012_111914.csv` as a new object titled `fisheries`.
+#### 1. Do an exploratory analysis of the data (your choice). What are the names of the variables, what are the dimensions, are there any NA’s, what are the classes of the variables?
+
+```{r}
+fisheriess<-readr::read_csv("data/FAO_1950to2012_111914.csv")
+```
+```{r}
+glimpse(fisheriess)
+```
+
+#### 2. Use janitor to rename the columns and make them easier to use. As part of this cleaning step, change country, isscaap_group_number, asfis_species_number, and fao_major_fishing_area to data class factor.
+
+```{r}
+fisheries<-janitor::clean_names(fisheriess)
+fisheries
+```
+
+```{r}
+fisheries$country<-as.factor(fisheries$country)
+fisheries$isscaap_group_number<-as.factor(fisheries$isscaap_group_number)
+fisheries$asfis_species_number<-as.factor(fisheries$asfis_species_number)
+fisheries$fao_major_fishing_area<-as.factor(fisheries$fao_major_fishing_area)
+fisheries
+```
+
+#### We need to deal with the years because they are being treated as characters and start with an X. We also have the problem that the column names that are years actually represent data. We haven’t discussed tidy data yet, so here is some help. You should run this ugly chunk to transform the data for the rest of the homework. It will only work if you have used janitor to rename the variables in question 2!
+
+```{r}
+fisheries_tidy <- fisheries %>% 
+  pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfis_species_number,asfis_species_name,fao_major_fishing_area,measure),
+               names_to = "year",
+               values_to = "catch",
+               values_drop_na = TRUE) %>% 
+  mutate(year= as.numeric(str_replace(year, 'x', ''))) %>% 
+  mutate(catch= str_replace(catch, c(' F'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('...'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('-'), replacement = '')) %>% 
+  mutate(catch= str_replace(catch, c('0 0'), replacement = ''))
+
+fisheries_tidy$catch <- as.numeric(fisheries_tidy$catch)
+```
+
+
+#### 3. How many countries are represented in the data? Provide a count and list their names.
+
+```{r}
+fisheries%>%
+  group_by(country)%>%
+  count(country, sort=F)
+```
+
+#### 4. Refocus the data only to include only: `country`, `isscaap_taxonomic_group`, `asfis_species_name`, `asfis_species_number`, `year`, `catch`.
+
+```{r}
+fisheries%>%
+  select(country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number)
+```
+
+#### 5. Based on the `asfis_species_number`, how many distinct fish species were caught as part of these data?
+
+```{r}
+fisheries%>%
+  summarize(distinct_species=n_distinct(asfis_species_number))
+```
+
+#### 6. Which country had the largest overall catch in the year 2000?
+
+```{r}
+fisheries%>%
+  group_by(country)%>%
+  select(country, x2000)%>%
+  arrange(desc(x2000))
+```
+
+#### 7. Which country caught the most sardines (Sardina pilchardus) between the years 1990-2000?
+
+```{r}
+fisheries_tidy%>% 
+  select(country, year, isscaap_taxonomic_group)%>%
+  filter(year >= 1990, year <= 2000) %>% 
+  count(sum(isscaap_taxonomic_group=="Sardina pilchardus"), sort=T)
+```
+
+#### 8. Which five countries caught the most cephalopods between 2008-2012?
+
+```{r}
+fisheries%>% 
+  filter(isscaap_taxonomic_group=="Squids, cuttlefishes, octopuses") %>% 
+  count(asfis_species_name, sort=T)
+```
+
+#### 9. Which species had the highest catch total between 2008-2012? (hint: Osteichthyes is not a species)
+
+```{r}
+fisheries_tidy %>% 
+  filter(year >= 2008, year <= 2012) %>% 
+  select(country, isscaap_taxonomic_group, asfis_species_name, year, catch) %>% 
+  group_by(country, asfis_species_name)
+```
+
+#### 10. Use the data to do at least one analysis of your choice.
+
+```{r}
+fisheries%>%
+  summarize(species=n_distinct(asfis_species_name))
+```
+
