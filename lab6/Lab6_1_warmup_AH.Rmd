@@ -145,8 +145,12 @@ msleep%>%
 ```{r}
 msleep%>%
   group_by(order)%>%
-  summarize(big_brain_time=mean(brainwt),
-            total=n())
+  summarize(big_brain_time=mean(brainwt, na.rm=T))
+```
 
+```{r}
+msleep %>% 
+  filter(order=="Cetacea") %>% 
+  select(order, genus, brainwt)
 ```
 

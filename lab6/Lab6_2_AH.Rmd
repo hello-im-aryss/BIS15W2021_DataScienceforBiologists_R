@@ -1,0 +1,170 @@
+---
+title: "Lab 6_2 AH"
+author: "Aryss Hearne"
+date: "1/25/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library("tidyverse")
+library("janitor")
+library("skimr")
+library("palmerpenguins")
+```
+
+```{r}
+glimpse(penguins)
+```
+
+```{r}
+penguins%>%
+  group_by(island)%>%
+  summarize(mean_body_mass_g=mean(body_mass_g),
+            n=n())
+```
+
+```{r}
+penguins%>%
+  group_by(island)%>%
+  summarize(number_NAs=sum(is.na(body_mass_g)))
+```
+
+```{r}
+penguins%>%
+  filter(!is.na(body_mass_g))%>%
+  group_by(island)%>%
+  summarize(mean_body_mass_g=mean(body_mass_g),
+            sd_body_mass_g=sd(body_mass_g),
+            n=n())
+```
+
+```{r}
+penguins%>%
+  group_by(island,species)%>%
+  summarize(n=n(),.groups='keep')
+```
+
+```{r}
+penguins%>%
+  count(island,sort=T)
+```
+
+```{r}
+penguins%>%
+  group_by(island)%>%
+  summarize(n=n())
+```
+
+```{r}
+penguins%>%
+  count(island,species,sort=T)
+```
+
+```{r}
+penguins%>%
+  tabyl(species,island)
+```
+```{r}
+penguins%>%
+  tabyl(species,island)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting(digits=1)%>%
+  adorn_ns()
+```
+
+#Practice
+#### Produce a summary of the mean for bill_length_mm, bill_depth_mm, flipper_length_mm, and body_mass_g within Adelie penguins only. Be sure to provide the number of samples.
+```{r}
+names(penguins)
+```
+
+```{r}
+penguins%>%
+  filter(species=="Adelie")%>%
+  summarize(mean_bill_length_mm=mean(bill_length_mm, na.rm=T),
+            sd_bill_length_mm=sd(bill_length_mm, na.rm=T),
+            penguin_flippers=mean(flipper_length_mm, na.rm=T),
+            n_samples=n())
+```
+
+#### How does the mean of `bill_length_mm` compare between penguin species? 
+
+```{r}
+penguins%>%
+  group_by(species)%>%
+  summarize(mean_bill_length_mm_2=mean(bill_length_mm, sort=T, na.rm=T),
+            n_samples=n())
+```
+
+#### For some penguins, their sex is listed as `NA`. Where do these penguins occur?
+
+```{r}
+penguins%>%
+  group_by(island)%>%
+  summarize(number_NAs=sum(is.na(sex)),)
+```
+
+```{r}
+penguins%>%
+  summarize(distinct_species=n_distinct(species),
+            distinct_island=n_distinct(island),
+            distinct_sex=n_distinct(sex))
+```
+```{r}
+penguins%>%
+  summarize(across(c(species,island,sex),n_distinct))
+```
+
+```{r}
+penguins%>%
+  summarize(across(contains("mm"),mean,na.rm=T))
+```
+
+```{r}
+penguins%>%
+  group_by(sex)%>%
+  summarize(across(contains("mm"), mean, na.rm=T))
+```
+```{r}
+penguins%>%
+  summarise_all(n_distinct)
+```
+
+```{r}
+penguins%>%
+  summarize(across(!c(species,island,sex),
+                   n_distinct))
+```
+```{r}
+penguins%>%
+  summarise(across(starts_with("bill"),n_distinct))
+```
+
+#Practice
+#### Produce separate summaries of the mean and standard deviation for bill_length_mm, bill_depth_mm, and fliper_length_mm for each penguin species. Be sure to provide the number of samples. 
+
+```{r}
+penguins%>%
+  group_by(species)%>%
+  summarize(across(contains("mm"), mean, na.rm=T),
+            n=n())
+```
+
+```{r}
+penguins%>%
+  group_by(species)%>%
+  summarize(across(contains("mm"), sd, na.rm=T),
+            n=n())
+```
+

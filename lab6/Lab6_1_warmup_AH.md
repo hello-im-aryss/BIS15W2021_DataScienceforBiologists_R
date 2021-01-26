@@ -434,8 +434,7 @@ msleep%>%
 ```r
 msleep%>%
   group_by(order)%>%
-  summarize(big_brain_time=mean(brainwt),
-            total=n())
+  summarize(big_brain_time=mean(brainwt, na.rm=T))
 ```
 
 ```
@@ -443,27 +442,43 @@ msleep%>%
 ```
 
 ```
-## # A tibble: 19 x 3
-##    order           big_brain_time total
-##    <chr>                    <dbl> <int>
-##  1 Afrosoricida          0.0026       1
-##  2 Artiodactyla         NA            6
-##  3 Carnivora            NA           12
-##  4 Cetacea              NA            3
-##  5 Chiroptera            0.000275     2
-##  6 Cingulata             0.0459       2
-##  7 Didelphimorphia      NA            2
-##  8 Diprotodontia        NA            2
-##  9 Erinaceomorpha        0.00295      2
-## 10 Hyracoidea            0.0152       3
-## 11 Lagomorpha            0.0121       1
-## 12 Monotremata           0.025        1
-## 13 Perissodactyla        0.414        3
-## 14 Pilosa               NA            1
-## 15 Primates             NA           12
-## 16 Proboscidea           5.16         2
-## 17 Rodentia             NA           22
-## 18 Scandentia            0.0025       1
-## 19 Soricomorpha          0.000592     5
+## # A tibble: 19 x 2
+##    order           big_brain_time
+##    <chr>                    <dbl>
+##  1 Afrosoricida          0.0026  
+##  2 Artiodactyla          0.198   
+##  3 Carnivora             0.0986  
+##  4 Cetacea             NaN       
+##  5 Chiroptera            0.000275
+##  6 Cingulata             0.0459  
+##  7 Didelphimorphia       0.0063  
+##  8 Diprotodontia         0.0114  
+##  9 Erinaceomorpha        0.00295 
+## 10 Hyracoidea            0.0152  
+## 11 Lagomorpha            0.0121  
+## 12 Monotremata           0.025   
+## 13 Perissodactyla        0.414   
+## 14 Pilosa              NaN       
+## 15 Primates              0.254   
+## 16 Proboscidea           5.16    
+## 17 Rodentia              0.00357 
+## 18 Scandentia            0.0025  
+## 19 Soricomorpha          0.000592
+```
+
+
+```r
+msleep %>% 
+  filter(order=="Cetacea") %>% 
+  select(order, genus, brainwt)
+```
+
+```
+## # A tibble: 3 x 3
+##   order   genus         brainwt
+##   <chr>   <chr>           <dbl>
+## 1 Cetacea Globicephalus      NA
+## 2 Cetacea Phocoena           NA
+## 3 Cetacea Tursiops           NA
 ```
 
