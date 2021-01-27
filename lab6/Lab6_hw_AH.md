@@ -19,10 +19,10 @@ library("tidyverse")
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.5     √ dplyr   1.0.3
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.0
 ```
 
 ```
@@ -273,6 +273,10 @@ fisheries%>%
 ## 10 Bahamas                14
 ## # ... with 194 more rows
 ```
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 4. Refocus the data only to include only: `country`, `isscaap_taxonomic_group`, `asfis_species_name`, `asfis_species_number`, `year`, `catch`.
 
@@ -298,6 +302,7 @@ fisheries%>%
 ## 10 Albania Squids, cuttlefishes, octo~ Sepia officinalis      3210200202        
 ## # ... with 17,682 more rows
 ```
+</div>
 
 #### 5. Based on the `asfis_species_number`, how many distinct fish species were caught as part of these data?
 
@@ -313,6 +318,10 @@ fisheries%>%
 ##              <int>
 ## 1             1553
 ```
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 6. Which country had the largest overall catch in the year 2000?
 
@@ -412,6 +421,7 @@ fisheries_tidy %>%
 ## 10 Albania Tunas, bonitos, billfishes Sarda sarda         2012     5
 ## # ... with 51,004 more rows
 ```
+</div>
 
 #### 10. Use the data to do at least one analysis of your choice.
 
