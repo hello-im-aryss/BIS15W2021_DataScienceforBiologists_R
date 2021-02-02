@@ -1,0 +1,169 @@
+---
+title: "Lab 7"
+author: "Aryss Hearne"
+date: "2/1/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("naniar")
+
+```
+```{r}
+#install.packages("visdat")
+```
+```{r}
+library("tidyverse")
+```
+
+```{r}
+library("naniar")
+library("skimr")
+```
+
+```{r}
+library("janitor")
+```
+
+```{r}
+?msleep
+```
+
+```{r}
+summary(msleep)
+```
+```{r}
+is.na(msleep)
+```
+
+```{r}
+msleep%>%
+  summarize(number_nas=sum(is.na(msleep)))
+```
+
+```{r}
+msleep%>%
+  summarize(number_nas=sum(is.na(conservation)))
+```
+```{r}
+msleep%>%
+  summarize_all(~(sum(is.na(.))))
+```
+```{r}
+msleep%>%
+  purrr::map_df(~sum(is.na(.)))
+```
+
+```{r}
+msleep %>% 
+  purrr::map_df(~ sum(is.na(.))) %>% 
+  pivot_longer(everything(),
+    names_to= "variables",
+    values_to = "num_nas") %>% 
+  arrange(desc(num_nas))
+```
+
+```{r}
+msleep%>%
+  count(conservation)
+```
+
+```{r}
+msleep%>%
+  count(conservation, Sort=T)
+```
+
+```{r}
+amniota<-readr::read_csv("data/amniota.csv")
+```
+```{r}
+amniota%>%
+  summarize(number_nas=sum(is.na(amniota)))
+```
+
+```{r}
+is.na(amniota)
+```
+
+```{r}
+amniota%>%
+  purrr::map_df(~sum(is.na(.)))%>%
+  pivot_longer(everything(),
+               names_to="variables",
+               values_to="num_nas")%>%
+  arrange(desc(num_nas))
+```
+
+```{r}
+glimpse(amniota)
+```
+
+```{r}
+hist(amniota$female_body_mass_at_maturity_g)
+```
+
+```{r}
+amniota_tidy<-amniota%>%
+  na_if("-999")
+```
+
+```{r}
+amniota_tidy%>%
+  summarize_all(~(sum(is.na(.))))
+```
+```{r}
+amniota_tidy %>% 
+  purrr::map_df(~ sum(is.na(.))) %>% 
+  pivot_longer(everything(),
+    names_to= "variables",
+    values_to = "num_nas") %>% 
+  arrange(desc(num_nas))
+```
+
+```{r}
+names(msleep)
+```
+
+```{r}
+msleep%>%
+  count(conservation,sort=T)
+```
+
+```{r}
+msleep%>%
+  mutate(conservation_modified=na_if(conservation, "domesticated"))%>%
+  count(conservation_modified, sort=T)
+```
+
+```{r}
+life_history <- readr::read_csv("data/mammal_lifehistories_v2.csv")
+```
+
+```{r}
+skim(life_history)
+```
+```{r}
+life_tidy <- life_history %>% 
+  na_if("-999")
+```
+
+```{r}
+life_tidy %>% 
+  summarise_all(~(sum(is.na(.))))
+```
+
+```{r}
+life_tidy%>%
+  purrr::map_df(~sum(is.na(.)))%>%
+  pivot_longer(everything(),
+               names_to="variables",
+               values_to="num_nas")%>%
+  arrange(desc(num_nas))
+```
+
