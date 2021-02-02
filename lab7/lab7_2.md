@@ -1,6 +1,6 @@
 ---
 title: "Midterm review and `naniar()`"
-date: "`r Sys.Date()`"
+date: "2021-02-01"
 output:
   html_document: 
     theme: spacelab
@@ -23,7 +23,8 @@ Please take 5-8 minutes to check over your answers to HW 6 in your group. If you
 Let's briefly review the questions from midterm 1 so you can get an idea of how I was thinking about the problems. Remember, there is more than one way to get at these answers, so don't worry if yours looks different than mine!
 
 ## Load the libraries
-```{r message=FALSE, warning=FALSE}
+
+```r
 library("tidyverse")
 library("janitor")
 library("skimr")
@@ -37,19 +38,54 @@ For the following, we will use life history data for mammals. The [data](http://
 
 ## Practice
 1. Load the mammals life history data and clean the names.  
-```{r}
+
+```r
 life_history <- readr::read_csv("data/mammal_lifehistories_v3.csv")
+```
+
+```
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   order = col_character(),
+##   family = col_character(),
+##   Genus = col_character(),
+##   species = col_character(),
+##   mass = col_double(),
+##   gestation = col_double(),
+##   newborn = col_character(),
+##   weaning = col_double(),
+##   `wean mass` = col_double(),
+##   AFR = col_double(),
+##   `max. life` = col_double(),
+##   `litter size` = col_double(),
+##   `litters/year` = col_double()
+## )
+```
+
+```r
 life_history <- janitor::clean_names(life_history)
 ```
 
 2. Use one or more of the functions from the last lab to determine if there are NA's in the data, how they are represented, and where they are located.
 
-```{r}
+
+```r
 life_history%>%
   summarize_all(~(sum(is.na(.))))
 ```
 
-```{r}
+```
+## # A tibble: 1 x 13
+##   order family genus species  mass gestation newborn weaning wean_mass   afr
+##   <int>  <int> <int>   <int> <int>     <int>   <int>   <int>     <int> <int>
+## 1     0      0     0       0     0         0       0       0         0     0
+## # ... with 3 more variables: max_life <int>, litter_size <int>,
+## #   litters_year <int>
+```
+
+
+```r
 life_tidy <- life_history %>% 
   na_if("-999")
 ```
@@ -60,27 +96,72 @@ life_tidy <- life_history %>%
 `naniar` is a package that is built to manage NA's. Many of the functions it performs can also be performed using tidyverse functions, but it does provide some interesting alternatives.  
 
 `miss_var_summary` provides a clean summary of NA's across the data frame.
-```{r}
+
+```r
 naniar::miss_var_summary(life_tidy)
 ```
 
+```
+## # A tibble: 13 x 3
+##    variable     n_miss pct_miss
+##    <chr>         <int>    <dbl>
+##  1 wean_mass      1039    72.2 
+##  2 litters_year    689    47.8 
+##  3 weaning         619    43.0 
+##  4 afr             607    42.2 
+##  5 gestation       418    29.0 
+##  6 mass             85     5.90
+##  7 litter_size      84     5.83
+##  8 order             0     0   
+##  9 family            0     0   
+## 10 genus             0     0   
+## 11 species           0     0   
+## 12 newborn           0     0   
+## 13 max_life          0     0
+```
+
 Notice that `max_life` has no NA's. Does that make sense in the context of this data?
-```{r}
+
+```r
 hist(life_tidy$max_life)
 ```
 
-```{r}
+![](lab7_2_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+
+```r
 life_tidy <- 
   life_tidy %>% 
   mutate(max_life=na_if(max_life, 0))
 ```
 
-```{r}
+
+```r
 naniar::miss_var_summary(life_tidy)
 ```
 
+```
+## # A tibble: 13 x 3
+##    variable     n_miss pct_miss
+##    <chr>         <int>    <dbl>
+##  1 wean_mass      1039    72.2 
+##  2 max_life        841    58.4 
+##  3 litters_year    689    47.8 
+##  4 weaning         619    43.0 
+##  5 afr             607    42.2 
+##  6 gestation       418    29.0 
+##  7 mass             85     5.90
+##  8 litter_size      84     5.83
+##  9 order             0     0   
+## 10 family            0     0   
+## 11 genus             0     0   
+## 12 species           0     0   
+## 13 newborn           0     0
+```
+
 We can also use `miss_var_summary` with `group_by()`. This helps us better evaluate where NA's are in the data.
-```{r}
+
+```r
 #life_history_tidy %>%
 #  group_by(order) %>%
 #  select(order, wean_mass) %>% 
@@ -88,10 +169,30 @@ We can also use `miss_var_summary` with `group_by()`. This helps us better evalu
 ```
 
 `naniar` also has a nice replace function which will allow you to precisely control which values you want replaced with NA's in each variable.
-```{r}
+
+```r
 life_history %>% 
   naniar::replace_with_na(replace = list(newborn = "not measured", weaning= -999, wean_mass= -999, afr= -999, max_life= 0, litter_size= -999, gestation= -999, mass= -999)) %>% 
   naniar::miss_var_summary()
+```
+
+```
+## # A tibble: 13 x 3
+##    variable     n_miss pct_miss
+##    <chr>         <int>    <dbl>
+##  1 wean_mass      1039    72.2 
+##  2 max_life        841    58.4 
+##  3 litters_year    689    47.8 
+##  4 weaning         619    43.0 
+##  5 afr             607    42.2 
+##  6 newborn         595    41.3 
+##  7 gestation       418    29.0 
+##  8 mass             85     5.90
+##  9 litter_size      84     5.83
+## 10 order             0     0   
+## 11 family            0     0   
+## 12 genus             0     0   
+## 13 species           0     0
 ```
 
 ## Practice
@@ -109,29 +210,77 @@ Some key information:
 
 ## Visualizing NAs
 There is another package `visdat` that can be used to visualize the proportion of different classes of data, including missing data. But, it is limited by size.
-```{r}
+
+```r
 library(visdat)
 ```
 
-```{r}
+
+```r
 vis_dat(life_tidy) #classes of data
 ```
 
-```{r}
+![](lab7_2_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
+
+```r
 vis_miss(life_tidy)
 ```
 
+![](lab7_2_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+
 ## Dealing with NA's in advance
 If you are sure that you know how NA's are treated in the data, then you can deal with them in advance using `na()` as part of the `readr` package.
-```{r}
+
+```r
 life_history_advance <- 
   readr::read_csv(file = "data/mammal_lifehistories_v3.csv", 
                   na = c("NA", " ", ".", "-999")) #all NA, blank spaces, .,and -999 are treated as NA
 ```
 
+```
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   order = col_character(),
+##   family = col_character(),
+##   Genus = col_character(),
+##   species = col_character(),
+##   mass = col_double(),
+##   gestation = col_double(),
+##   newborn = col_character(),
+##   weaning = col_double(),
+##   `wean mass` = col_double(),
+##   AFR = col_double(),
+##   `max. life` = col_double(),
+##   `litter size` = col_double(),
+##   `litters/year` = col_double()
+## )
+```
+
 Note you would still need to deal with some variables case-by-case.
-```{r}
+
+```r
 naniar::miss_var_summary(life_history_advance)
+```
+
+```
+## # A tibble: 13 x 3
+##    variable     n_miss pct_miss
+##    <chr>         <int>    <dbl>
+##  1 wean mass      1039    72.2 
+##  2 litters/year    689    47.8 
+##  3 weaning         619    43.0 
+##  4 AFR             607    42.2 
+##  5 gestation       418    29.0 
+##  6 mass             85     5.90
+##  7 litter size      84     5.83
+##  8 order             0     0   
+##  9 family            0     0   
+## 10 Genus             0     0   
+## 11 species           0     0   
+## 12 newborn           0     0   
+## 13 max. life         0     0
 ```
 
 ## Wrap-up  
