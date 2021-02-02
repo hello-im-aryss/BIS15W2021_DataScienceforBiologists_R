@@ -1,0 +1,162 @@
+---
+title: "Lab_7_Hw_AH"
+author: "Aryss Hearne"
+date: "2/1/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(skimr)
+```
+
+#Data
+#### 1. For For this homework, we will use two different data sets. Please load `amniota` and `amphibio`.
+
+```{r}
+amniota<-readr::read_csv("data/amniota.csv")
+```
+```{r}
+amphibio<-readr::read_csv("data/amphibio.csv")
+```
+
+#### 2. Do some exploratory analysis of the `amniota` data set. Use the function(s) of your choice. Try to get an idea of how NA’s are represented in the data.
+
+```{r}
+skim(amniota)
+```
+```{r}
+amniota%>%
+  summarize_all(~sum(is.na(.)))
+```
+
+#### 3. Do some exploratory analysis of the `amphibio` data set. Use the function(s) of your choice. Try to get an idea of how NA’s are represented in the data.
+
+```{r}
+skim(amphibio)
+```
+
+```{r}
+amphibio%>%
+  summarize_all(~sum(is.na(.)))
+```
+
+#### 4. How many total NA’s are in each data set? Do these values make sense? Are NA’s represented by values?
+
+```{r}
+amniota%>%
+  summarize(number_nas=sum(is.na(amniota)))
+```
+
+```{r}
+amphibio%>%
+  summarize(number_nas=sum(is.na(amphibio)))
+```
+```{r}
+#There needs to be additional work done on the amniota data to accurately reflect the # of NAs as, right now, the NAs are catalogued as '-999's 
+```
+
+
+#### 5. Make any necessary replacements in the data such that all NA’s appear as “NA”.
+
+```{r}
+amniota_tidy <- amniota%>% 
+  na_if("-999")
+```
+
+```{r}
+amniota_tidy%>%
+  summarize(number_nas=sum(is.na(amniota_tidy)))
+```
+```{r}
+#Just to make sure...
+```
+
+```{r}
+amphibio_tidy <- amphibio%>% 
+  na_if("-999")
+```
+
+```{r}
+amphibio%>%
+  summarize(number_nas=sum(is.na(amphibio)))
+```
+
+```{r}
+amphibio_tidy%>%
+  summarize(number_nas=sum(is.na(amphibio_tidy)))
+```
+
+```{r}
+#So we make sure there are no hidden '-999's floating around in the second set of data. 
+```
+
+
+#### 6. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amniota` data.
+
+```{r}
+naniar::miss_var_summary(amniota_tidy)
+```
+
+#### 7.  Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amphibio` data.
+
+```{r}
+naniar::miss_var_summary(amphibio)
+```
+
+
+#### 8. For the `amniota` data, calculate the number of NAs in the `egg_mass_g` column sorted by taxonomic class; i.e. how many NA’s are present in the `egg_mass_g` column in birds, mammals, and reptiles? Does this results make sense biologically? How do these results affect your interpretation of NA’s?
+
+
+```{r}
+names(amniota_tidy)
+```
+
+
+```{r}
+amniota_tidy%>%
+  group_by(class)%>%
+  select(egg_mass_g, class)%>%
+  naniar::miss_var_summary(egg_mass_g=T)
+```
+```{r}
+#The percent missing for mammals makes sense. Mammals don't lay eggs so they shouldn't be having data associated with their egg mass. I'm kind of surprised by how much data is missing from the birds and the reptiles though as all species ought to be laying eggs, I dould think. So ~92% missing for the reptiles seems pretty egregious.
+```
+
+
+#### 9. The `amphibio` data have variables that classify species as fossorial (burrowing), terrestrial, aquatic, or arboreal.Calculate the number of NA’s in each of these variables. Do you think that the authors intend us to think that there are NA’s in these columns or could they represent something else? Explain.
+
+```{r}
+names(amphibio)
+```
+```{r}
+amphibio%>%
+  group_by(Species)%>%
+  select(Species, Fos, Ter, Aqu, Arb)%>%
+  naniar::miss_var_summary(Fos=T, 
+                           Ter=T, 
+                           Aqu=T, 
+                           Arb=T)
+```
+
+
+```{r}
+#So we can spot a pattern here. Each species has three columns of missing data and one column of non-missing data. This simply means that the species indicated is only one of the 4 classifications.
+```
+
+##### 10. Now that we know how NA’s are represented in the `amniota` data, how would you load the data such that the values which represent NA’s are automatically converted?
+
+```{r}
+amniota_pro<- 
+  readr::read_csv(file="data/amniota.csv", 
+                  na=c("NA"," ", ".", "-999"))
+```
+
+
