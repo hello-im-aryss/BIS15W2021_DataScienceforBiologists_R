@@ -130,6 +130,10 @@ amniota_tidy%>%
 #The percent missing for mammals makes sense. Mammals don't lay eggs so they shouldn't be having data associated with their egg mass. I'm kind of surprised by how much data is missing from the birds and the reptiles though as all species ought to be laying eggs, I dould think. So ~92% missing for the reptiles seems pretty egregious.
 ```
 
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 9. The `amphibio` data have variables that classify species as fossorial (burrowing), terrestrial, aquatic, or arboreal.Calculate the number of NA’s in each of these variables. Do you think that the authors intend us to think that there are NA’s in these columns or could they represent something else? Explain.
 
@@ -145,6 +149,7 @@ amphibio%>%
                            Aqu=T, 
                            Arb=T)
 ```
+</div>
 
 
 ```{r}
