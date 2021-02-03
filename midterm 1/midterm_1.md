@@ -1,7 +1,7 @@
 ---
 title: "Midterm 1"
 author: "Aryss Hearne"
-date: "2021-01-29"
+date: "2021-02-02"
 output:
   html_document: 
     theme: spacelab
@@ -123,7 +123,7 @@ elephants%>%
 ```
 ## # A tibble: 2 x 2
 ##   sex       n
-##   <fct> <int>
+## * <fct> <int>
 ## 1 F       150
 ## 2 M       138
 ```
@@ -158,13 +158,9 @@ elephants%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 2 x 4
 ##   sex   mean_age mean_height     n
-##   <fct>    <dbl>       <dbl> <int>
+## * <fct>    <dbl>       <dbl> <int>
 ## 1 F        12.8         190.   150
 ## 2 M         8.95        185.   138
 ```
@@ -184,10 +180,6 @@ elephants%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 2 x 5
 ##   sex   mean_height min_height max_height     n
 ##   <fct>       <dbl>      <dbl>      <dbl> <int>
@@ -199,6 +191,10 @@ elephants%>%
 For the next series of questions, we will use data from a study on vertebrate community composition and impacts from defaunation in [Gabon, Africa](https://en.wikipedia.org/wiki/Gabon). One thing to notice is that the data include 24 separate transects. Each transect represents a path through different forest management areas.  
 
 Reference: Koerner SE, Poulsen JR, Blanchard EJ, Okouyi J, Clark CJ. Vertebrate community composition and diversity declines along a defaunation gradient radiating from rural villages in Gabon. _Journal of Applied Ecology_. 2016. This paper, along with a description of the variables is included inside the midterm 1 folder.  
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 **9. (2 points) Load `IvindoData_DryadVersion.csv` and use the function(s) of your choice to get an idea of the overall structure. Change the variables `HuntCat` and `LandUse` to factors.**
 
@@ -284,6 +280,8 @@ gabon
 ## #   diversity_mammal_species <dbl>
 ```
 
+</div>
+
 
 **10. (4 points) For the transects with high and moderate hunting intensity, how does the average diversity of birds and mammals compare?**
 
@@ -299,13 +297,9 @@ gabon%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 2 x 4
 ##   hunt_cat avg_bird avg_mammals     n
-##   <chr>       <dbl>       <dbl> <int>
+## * <chr>       <dbl>       <dbl> <int>
 ## 1 High         1.66        1.74     7
 ## 2 Moderate     1.62        1.68     8
 ```
@@ -323,7 +317,7 @@ gabon%>%
 ```
 
 ```
-## `summarise()` regrouping output by 'far' (override with `.groups` argument)
+## `summarise()` has grouped output by 'far'. You can override using the `.groups` argument.
 ```
 
 ```
@@ -350,7 +344,7 @@ gabon%>%
 ```
 
 ```
-## `summarise()` regrouping output by 'farish', 'nearish' (override with `.groups` argument)
+## `summarise()` has grouped output by 'farish', 'nearish'. You can override using the `.groups` argument.
 ```
 
 ```
