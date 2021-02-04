@@ -1,0 +1,132 @@
+---
+title: "Lab 8_2 warmup"
+author: "Aryss Hearne"
+date: "2/3/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("tidyverse")
+```
+
+
+```{r}
+datasets::USPersonalExpenditure
+```
+```{r}
+?USPersonalExpenditure
+```
+
+```{r}
+expenditures<-
+  USPersonalExpenditure%>%
+  as_tibble()%>%
+  mutate(expenditure=rownames(USPersonalExpenditure))
+expenditures
+```
+```{r}
+c_expeditures<-
+  expenditures%>%
+  pivot_longer(-c(expenditure),
+               names_to="year",
+               values_to="mil_spent")%>%
+  select(expenditure, year, mil_spent)%>%
+  filter(expenditure=="Medical and Health")%>%
+  arrange(mil_spent)
+c_expeditures
+```
+
+```{r}
+heartrate2<-readr::read_csv("data/heartrate2.csv")
+```
+```{r}
+heartrate2
+```
+
+```{r}
+heartrate2%>%
+  separate(patient, into=c("patient","sex"),sep="_")
+```
+
+```{r}
+heartrate3<-
+  heartrate2%>%
+  separate(patient,
+           into=c("patient","sex"),
+           sep="_")%>%
+  pivot_longer(-c(patient, sex),
+               names_to="drug",
+               values_to="heartrate")%>%
+  arrange(patient, drug)
+heartrate3
+```
+
+```{r}
+tb_data<-read_csv("data/tb_data.csv")
+```
+```{r}
+tb_data
+```
+
+```{r}
+tb_data%>%
+  pivot_wider(names_from="key",
+              values_from="value")
+```
+```{r}
+gene_exp<-readr::read_csv("data/gene_exp.csv")
+```
+
+```{r}
+gene_exp
+```
+```{r}
+gene_exp%>%
+  pivot_wider(names_from="type",
+              values_from="L4_values")
+```
+
+```{r}
+edu_level<-readr::read_csv("data/education_level.csv")
+```
+```{r}
+edu_level
+```
+```{r}
+edu_level%>%
+  pivot_wider(names_from=(education_level),
+              values_from=c(mean_income,n))
+```
+```{r}
+beachbugs<-readr::read_csv("data/beachbugs_long.csv")
+```
+
+```{r}
+beachbugs
+```
+
+```{r}
+beachbugsw<-
+  beachbugs%>%
+  pivot_wider(names_from = (site),
+              values_from=(buglevels))
+beachbugsw
+```
+
+```{r}
+beachbugsl<-
+  beachbugsw%>%
+  pivot_longer(
+    "Bondi Beach":"Tamarama Beach",
+    names_to = "beach",
+    values_to="buglevels")%>%
+  arrange(desc(buglevels))
+beachbugsl
+```
+

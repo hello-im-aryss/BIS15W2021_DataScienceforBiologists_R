@@ -1,0 +1,148 @@
+---
+title: "Lab 8_1warmup"
+author: "Aryss Hearne"
+date: "2/3/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+heartrate <- readr::read_csv("data/heartrate.csv")
+```
+```{r}
+heartrate
+```
+
+```{r}
+heartrate%>%
+  pivot_longer(-patient,
+               names_to="drug",
+               values_to="heartrate"
+               )
+```
+
+```{r}
+relig_income<-readr::read_csv("data/relig_income.csv")
+```
+```{r}
+relig_income
+```
+
+```{r}
+#The data are untidy because, like the previous example, the column names are actually variables and the values beneath each column are undefined. 
+```
+
+
+```{r}
+relig_income%>%
+  pivot_longer(-religion,
+               names_to="income_bracket",
+               values_to="n"
+               )
+```
+
+```{r}
+billboard<-readr::read_csv("data/billboard.csv")
+```
+
+```{r}
+billboard
+```
+```{r}
+billboard_tidier<-
+  billboard%>%
+  pivot_longer(wk1:wk76,
+               names_to="week",
+               values_to="rank",
+               values_drop_na=T
+               )
+billboard_tidier
+```
+
+```{r}
+billboard_tidyish<-
+  billboard%>%
+  pivot_longer(-c(artist,track, date.entered),
+               names_to="week",
+               values_to="rank",
+               values_drop_na=T
+               )
+billboard_tidyish
+```
+
+```{r}
+billboard_tidy<-
+  billboard%>%
+  pivot_longer(
+    cols=starts_with("wk"),
+    names_to="week",
+    names_prefix="wk",
+    values_to="rank",
+    values_drop_na=T)
+billboard_tidy
+```
+
+
+```{r}
+plant_data<-readr::read_csv("data/plant_data.csv")
+```
+```{r}
+plant_data
+```
+
+```{r}
+#These data aren't tidy because the observations are nested in the column names and not as a row themselves
+```
+
+```{r}
+plant_data_tidy<-
+  plant_data%>%
+  pivot_longer(
+    cols=starts_with("day"),
+    names_to="day",
+    names_prefix="day",
+    values_to="measurement",
+    values_drop_na=T
+  )%>%
+  arrange(genotype)
+plant_data_tidy
+```
+
+
+```{r}
+qpcr_untidy<-readr::read_csv("data/qpcr_untidy.csv")
+```
+```{r}
+qpcr_untidy
+```
+```{r}
+qpcr_untidy%>%
+  pivot_longer(
+    exp1_rep1:exp3_rep3,
+    names_to=c("experiment","replicate"),
+    names_sep="_",
+    values_to="mRNA_expression"
+  )
+```
+
+```{r}
+length_data<-readr::read_csv("data/length_data.csv")
+```
+```{r}
+length_data
+```
+```{r}
+length_data%>%
+  transform(length=str_split(length,";"))%>%
+  unnest(length)
+```
+
