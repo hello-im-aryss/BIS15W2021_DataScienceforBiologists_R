@@ -1,0 +1,117 @@
+---
+title: "Lab 8 HW"
+author: "Aryss Hearne"
+date: "2/3/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+```{r}
+#install.packages("here")
+```
+```{r}
+library(here)
+```
+```{r}
+sydneybeaches<-read_csv(here("lab8", "data", "sydneybeaches.csv"))%>%
+  janitor::clean_names()
+```
+
+#### 2. Are these data “tidy” per the definitions of the tidyverse? How do you know? Are they in wide or long format?
+
+```{r}
+sydneybeaches
+```
+
+```{r}
+#This is in a long format and it looks like the data are currently tidy (except maybe the date as it's a concatonated form of month-day-year. 
+``` 
+
+
+#### 3. We are only interested in the variables site, date, and enterococci_cfu_100ml. Make a new object focused on these variables only. Name the object `sydneybeaches_long`
+
+```{r}
+sydneybeaches_long<-
+  sydneybeaches%>%
+  select(site, date, enterococci_cfu_100ml)
+sydneybeaches_long
+```
+
+#### 4. Pivot the data such that the dates are column names and each beach only appears once. Name the object sydneybeaches_wide
+
+```{r}
+sydneybeaches_wide<-
+sydneybeaches_long%>%
+  pivot_wider(names_from = "date",
+              values_from="enterococci_cfu_100ml")
+sydneybeaches_wide  
+```
+
+#### 5. Pivot the data back so that the dates are data and not column names.
+
+```{r}
+sydneybeaches_long2<-
+  sydneybeaches_wide%>%
+  pivot_longer(-site,
+               names_to="date",
+               values_to="enterococci_cfu_100ml")
+sydneybeaches_long2
+```
+
+#### 6.We haven’t dealt much with dates yet, but separate the date into columns day, month, and year. Do this on the sydneybeaches_long data.
+
+```{r}
+sydneybeachdate<-
+sydneybeaches_long%>%
+  separate(date, into=c("month","day","year"),
+           sep="/")
+sydneybeachdate
+```
+
+#### 7. What is the average `enterococci_cfu_100ml` by year for each beach. Think about which data you will use- long or wide.
+
+```{r}
+sydneybeachdate%>%
+  group_by(site,year)%>%
+  summarize(mean_enterococci=mean(enterococci_cfu_100ml, na.rm=T))%>%
+  arrange(year)
+```
+
+
+#### Make the output from question 7 easier to read by pivoting it to wide format.
+
+```{r}
+sydneybeachdate_avg<-
+  sydneybeachdate%>%
+  group_by(site,year)%>%
+  summarize(mean_enterococci=mean(enterococci_cfu_100ml, na.rm=T))%>%
+  arrange(year)
+sydneybeachdate_avg
+```
+
+```{r}
+sydneybeachdate_avg_wide<-
+  sydneybeachdate_avg%>%
+  pivot_wider(names_from = "year",
+              values_from = "mean_enterococci")
+sydneybeachdate_avg_wide
+```
+
+#### 9. What was the most polluted beach in 2018?
+ 
+```{r}
+sydneybeachdate_avg_wide%>%
+  select(site, "2018")%>%
+  arrange(desc(`2018`))
+```
+ 
+ 
