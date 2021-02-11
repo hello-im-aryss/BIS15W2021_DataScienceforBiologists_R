@@ -1,0 +1,216 @@
+---
+title: "Lab 9_1 warmup"
+author: "Aryss Hearne"
+date: "2/10/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(janitor)
+library(here)
+```
+```{r}
+?iris
+names(iris)
+```
+```{r}
+glimpse(iris)
+```
+```{r}
+ggplot(data=iris,mapping=aes(x=Species,y=Petal.Length))
+```
+
+```{r}
+ggplot(data=iris,mapping=aes(x=Species,y=Petal.Length))+
+  geom_boxplot()
+```
+
+```{r}
+ggplot(data=iris,mapping=aes(x=Sepal.Length, y=Sepal.Width))+
+  geom_jitter()
+```
+
+```{r}
+homerange <- readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+
+```{r}
+homerange
+```
+
+```{r}
+is.na(homerange)
+```
+
+```{r}
+ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
+  geom_point()
+```
+
+```{r}
+ggplot(data=homerange, mapping=aes(x=log10.mass,y=log10.hra))+
+  geom_jitter()
+```
+
+```{r}
+ggplot(data=homerange,mapping=aes(x=log10.mass,y=log10.hra))+
+  geom_jitter()+
+  geom_smooth(method=lm, se=F)
+```
+
+```{r}
+ggplot(data=homerange,mapping=aes(x=log10.hra,y=log10.preymass))+
+  geom_jitter()+
+  geom_smooth(method=lm, se=F)
+```
+
+```{r}
+#the function removed the NAs for me! So nice.
+```
+
+
+```{r}
+homerange%>%
+  ggplot(aes(x=trophic.guild))+
+  geom_bar()
+```
+
+```{r}
+homerange%>%
+  filter(family=="salmonidae")%>%
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()
+```
+
+```{r}
+homerange%>%
+  group_by(class)%>%
+  summarize(mean_body_wt=mean(log10.mass))%>%
+  ggplot(aes(x=class,y=mean_body_wt))+
+  geom_bar(stat="identity")
+```
+
+```{r}
+homerange%>%
+  group_by(class)%>% 
+  summarize(mean_body_wt=mean(log10.mass))%>% 
+  ggplot(aes(x=class,y=mean_body_wt))+
+  geom_col()
+```
+
+```{r}
+names(homerange)
+```
+```{r}
+homerange
+```
+
+```{r}
+homerange%>%
+  filter(class=="mammalia")%>%
+  ggplot(aes(x=trophic.guild))+
+  geom_bar()
+```
+
+```{r}
+homerange%>%
+  filter(taxon=="mammals")%>%
+  top_n(-10,log10.mass)%>%
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()+
+  coord_flip()
+```
+
+#9.2
+
+```{r}
+library(palmerpenguins)
+```
+
+
+```{r}
+penguins
+```
+
+```{r}
+penguins%>%
+  count(island,species,Sort=F)
+```
+```{r}
+penguins%>%
+  group_by(island)%>%
+  ggplot(aes(x=species))+
+  geom_bar()+
+  coord_flip()
+```
+```{r}
+penguins%>%
+  filter(sex!="NA")%>%
+  group_by(sex)%>%
+  summarize(ave_bill_length=mean(bill_length_mm))%>%
+  ggplot(aes(x=sex,y=ave_bill_length))+
+  geom_col()+
+  coord_flip()
+```
+
+```{r}
+homerange
+```
+
+```{r}
+homerange%>%
+  group_by(class)%>%
+  summarize(min_log10.mass=min(log10.mass),
+            max_log10.mass=max(log10.mass),
+            median_log10.mass=median(log10.mass))
+```
+
+```{r}
+homerange%>%
+  ggplot(aes(x=class,y=log10.mass))+
+  geom_boxplot()
+```
+
+```{r}
+homerange%>%
+  ggplot(aes(x=trophic.guild, y=log10.mass))+
+  geom_boxplot()
+```
+
+```{r}
+homerange %>% 
+  filter(taxon=="mammals" & trophic.guild=="carnivore") %>% 
+  summarize(min_log10.mass=min(log10.mass),
+            max_log10.mass=max(log10.mass),
+            mean_log10.mass=mean(log10.mass),
+            median_log10.mass=median(log10.mass),
+            total_n=n()) %>% 
+  pivot_longer(cols=everything(),
+               names_to="measurement",
+               values_to="value")
+```
+
+```{r}
+homerange %>% 
+  filter(taxon=="mammals" & trophic.guild=="carnivore") %>% 
+  select(family, log10.mass) 
+```
+
+```{r}
+homerange %>% 
+  filter(taxon=="mammals" & trophic.guild=="carnivore") %>% 
+  select(family, log10.mass) %>% 
+  ggplot(aes(x=family, y=log10.mass))+
+  geom_boxplot()+
+  coord_flip()+
+  labs(title="Family vs. Log10.mass")
+```
+
