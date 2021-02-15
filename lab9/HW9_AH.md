@@ -19,10 +19,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.5     √ dplyr   1.0.3
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.1
 ```
 
 ```
@@ -51,7 +51,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/starf/Documents/GitHub/BIS15W2021_ahearne
+## here() starts at D:/TA files/Winter2021 BIS15L/students_rep/BIS15W2021_ahearne
 ```
 
 ```r
@@ -193,10 +193,6 @@ college%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 12 x 2
 ##    city          number_of_colleges
 ##    <chr>                      <int>
@@ -229,10 +225,6 @@ college%>%
   coord_flip()
 ```
 
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
 ![](HW9_AH_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 #### 4. The column `COSTT4_A` is the annual cost of each institution. Which city has the highest average cost? Where is it located?
@@ -244,10 +236,6 @@ college%>%
   group_by(city)%>%
   summarize(avg_cost_city=mean(costt4_a, na.rm=T))%>%
   top_n(1, avg_cost_city)
-```
-
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```
@@ -390,8 +378,14 @@ uc
 ## 8 Univ~ Santa~ Sant~ CA     93106    0.358    1281  0.108    34998         0.816
 ## # ... with 1 more variable: pftftug1_ef <dbl>
 ```
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 9. The column `ADM_RATE` is the admissions rate by campus. Which UC has the lowest and highest admissions rates? Produce a numerical summary and an appropriate plot.
+
+# Please remember to make a summary table shows `ADM_RATE` for each campus as the question requested.
 
 
 ```r
@@ -403,6 +397,8 @@ uc%>%
 ![](HW9_AH_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 #### 10. If you wanted to get a degree in biological or biomedical sciences, which campus confers the majority of these degrees? Produce a numerical summary and an appropriate plot.
+
+# Please remember to make a summary table shows `pcip26` for each campus as the question requested.
 
 
 ```r
@@ -431,4 +427,5 @@ UC%>%
 ```
 
 ![](HW9_AH_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+</div>
 

@@ -19,10 +19,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.5     √ dplyr   1.0.3
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.1
 ```
 
 ```
@@ -51,7 +51,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/starf/Documents/GitHub/BIS15W2021_ahearne
+## here() starts at D:/TA files/Winter2021 BIS15L/students_rep/BIS15W2021_ahearne
 ```
 
 ```r
@@ -124,6 +124,10 @@ names(deserts)
 ```r
 # Data look tidy. NAs are treated as NAs. 
 ```
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 2. How many genera and species are represented in the data? What are the total number of observations? Which species is most/ least frequently sampled in the study?
 
@@ -141,6 +145,7 @@ deserts%>%
 ```
 
 ![](Lab10HW_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+</div>
 
 #### 3. What is the proportion of taxa included in this study? Show a table and plot that reflects this count.
 
@@ -271,10 +276,6 @@ deserts%>%
   filter(weight!="NA")%>%
   summarize(mean_weight=mean(weight))%>%
   top_n(2)
-```
-
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```
