@@ -341,7 +341,11 @@ gapminder%>%
   theme(legend.position="top",
         axis.line = element_line(color = "grey85"),
         axis.ticks = element_line(color = "grey85"),
-        axis.text.x=element_text(angle=60, hjust=1))
+        axis.text.x=element_text(angle=60, hjust=1))+
+  labs(title="Global Life Expectancy v GDP (1952-2007)",
+       x="GDP per Capita",
+       y="Life Expectancy",
+       color= "Continent")
 ```
 
 
