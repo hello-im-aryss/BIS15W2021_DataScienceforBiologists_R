@@ -125,6 +125,12 @@ gapminder_t%>%
 
 
 ```r
+gapminder$year<-as.factor(gapminder$year)
+```
+
+
+
+```r
 #colors<-paletteer::palettes_d_names
 #colors
 ```
@@ -139,7 +145,7 @@ my_lil_palette_cont<-LaCroixColoR::lacroix_palette("Pamplemousse", n = 50, type 
 barplot(rep(1,14), axes=FALSE, col=my_lil_palette)
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 
 
@@ -147,14 +153,15 @@ barplot(rep(1,14), axes=FALSE, col=my_lil_palette)
 gapminder%>%
   group_by(year)%>%
   summarize(mean_lifeExp=mean(lifeExp))%>%
-  ggplot(aes(x=year, y=mean_lifeExp))+
-  geom_col(fill="thistle4")+
+  ggplot(aes(x=year, y=mean_lifeExp, color=year))+
+  geom_point()+
+  geom_line()+
   theme_solarized()+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  #scale_fill_manual(values=my_palette_dis)+ Can't get this to work. 
+  scale_fill_manual(values=my_lil_palette_cont)+ 
   labs(title="Change in Life Expectancy Over the Years",
        x="Year",
-       y="Life Expectancy",
+       y="Average Yearly Life Expectancy",
        fill="Life Expectancy")
 ```
 
@@ -162,7 +169,12 @@ gapminder%>%
 ## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+```
+## geom_path: Each group consists of only one observation. Do you need to adjust
+## the group aesthetic?
+```
+
+![](Lab-11-HW_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 
 #### 3. How do the distributions of life expectancy compare for the years 1952 and 2007?
@@ -171,35 +183,38 @@ gapminder%>%
 ```r
 gapminder%>%
   filter(year=="1952"| year=="2007")%>%
-  ggplot(aes(x=country, y=lifeExp, fill=year))+
-  geom_col()+
+  ggplot(aes(x=continent, y=lifeExp, color=year))+
+  geom_point()+
   theme_solarized()+
   theme(legend.position="bottom",
         axis.text.x=element_text(angle=60, hjust=1))+
+  scale_color_manual(values=my_lil_palette)+
   labs(title="Countries' Life Expectency in 1952 v 2007",
-       x= "Country",
+       x= "Continent",
        y= "Life Expectancy",
-       fill= "Year")+
-  coord_flip()
+       color= "Year")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 gapminder%>%
   filter(year=="1952"| year=="2007")%>%
-  ggplot(aes(x=year, y=lifeExp, group=country, color=continent, shape=continent))+
-  geom_line(alpha=0.2)+
+  ggplot(aes(x=year, y=lifeExp, group=country, color=continent, size=pop))+
+  geom_point(alpha=0.4)+
   theme_solarized()+
-  theme(legend.position="bottom",
+  theme(legend.position="top",
         axis.text.x=element_text(angle=60, hjust=1))+
+  scale_color_manual(values=my_lil_palette)+
+  scale_size(range = c(0.1, 10),
+             guide = "none")+
   labs(title="Countries' Life Expectency in 1952 v 2007",
-       x= "Country",
+       x= "Year",
        y= "Life Expectancy",
-       fill= "Year")
+       color= "Country's Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 #### 4. Your answer above doesn’t tell the whole story since life expectancy varies by region. Make a summary that shows the min, mean, and max life expectancy by continent for all years represented in the data.
 
@@ -224,18 +239,18 @@ gapminder2
 ```
 ## # A tibble: 60 x 5
 ## # Groups:   continent [5]
-##    continent  year min_lifeExp mean_lifeExp max_lifeExp
-##    <fct>     <int>       <dbl>        <dbl>       <dbl>
-##  1 Africa     1952        30           39.1        52.7
-##  2 Africa     1957        31.6         41.3        58.1
-##  3 Africa     1962        32.8         43.3        60.2
-##  4 Africa     1967        34.1         45.3        61.6
-##  5 Africa     1972        35.4         47.5        64.3
-##  6 Africa     1977        36.8         49.6        67.1
-##  7 Africa     1982        38.4         51.6        69.9
-##  8 Africa     1987        39.9         53.3        71.9
-##  9 Africa     1992        23.6         53.6        73.6
-## 10 Africa     1997        36.1         53.6        74.8
+##    continent year  min_lifeExp mean_lifeExp max_lifeExp
+##    <fct>     <fct>       <dbl>        <dbl>       <dbl>
+##  1 Africa    1952         30           39.1        52.7
+##  2 Africa    1957         31.6         41.3        58.1
+##  3 Africa    1962         32.8         43.3        60.2
+##  4 Africa    1967         34.1         45.3        61.6
+##  5 Africa    1972         35.4         47.5        64.3
+##  6 Africa    1977         36.8         49.6        67.1
+##  7 Africa    1982         38.4         51.6        69.9
+##  8 Africa    1987         39.9         53.3        71.9
+##  9 Africa    1992         23.6         53.6        73.6
+## 10 Africa    1997         36.1         53.6        74.8
 ## # ... with 50 more rows
 ```
 
@@ -256,7 +271,7 @@ gapminder2%>%
        fill= "Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 
 ```r
@@ -274,7 +289,7 @@ gapminder2%>%
        fill= "Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 
 ```r
@@ -292,7 +307,7 @@ gapminder2%>%
        fill= "Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```r
 gapminder%>%
@@ -308,7 +323,7 @@ gapminder%>%
        fill= "Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 
 ```r
@@ -322,8 +337,8 @@ gapminder%>%
 
 ```r
 gapminder%>%
-  ggplot(aes(x=year, y=lifeExp, group=continent, color=continent, alpha=0.5))+
-  geom_point(alpha=0.5)+
+  ggplot(aes(x=year, y=lifeExp, group=continent, color=continent))+
+  geom_point(alpha=0.2)+
   geom_smooth(se = FALSE, method = "loess")+
   scale_color_manual(values=my_lil_palette)+ 
   theme_solarized()+
@@ -339,7 +354,7 @@ gapminder%>%
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 
 #### 6. We are interested in the relationship between per capita GDP and life expectancy; i.e. does having more money help you live longer?
@@ -360,7 +375,7 @@ gapminder%>%
        fill= "Continent")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 #### 7. Which countries have had the largest population growth since 1952?
 
 
@@ -375,18 +390,18 @@ g3
 ```
 ## # A tibble: 284 x 7
 ## # Groups:   country [142]
-##    country     continent  year lifeExp      pop gdpPercap population_growth
-##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>             <int>
-##  1 Afghanistan Asia       1952    28.8  8425333      779.                 0
-##  2 Afghanistan Asia       2007    43.8 31889923      975.          23464590
-##  3 Albania     Europe     1952    55.2  1282697     1601.                 0
-##  4 Albania     Europe     2007    76.4  3600523     5937.           2317826
-##  5 Algeria     Africa     1952    43.1  9279525     2449.                 0
-##  6 Algeria     Africa     2007    72.3 33333216     6223.          24053691
-##  7 Angola      Africa     1952    30.0  4232095     3521.                 0
-##  8 Angola      Africa     2007    42.7 12420476     4797.           8188381
-##  9 Argentina   Americas   1952    62.5 17876956     5911.                 0
-## 10 Argentina   Americas   2007    75.3 40301927    12779.          22424971
+##    country     continent year  lifeExp      pop gdpPercap population_growth
+##    <fct>       <fct>     <fct>   <dbl>    <int>     <dbl>             <int>
+##  1 Afghanistan Asia      1952     28.8  8425333      779.                 0
+##  2 Afghanistan Asia      2007     43.8 31889923      975.          23464590
+##  3 Albania     Europe    1952     55.2  1282697     1601.                 0
+##  4 Albania     Europe    2007     76.4  3600523     5937.           2317826
+##  5 Algeria     Africa    1952     43.1  9279525     2449.                 0
+##  6 Algeria     Africa    2007     72.3 33333216     6223.          24053691
+##  7 Angola      Africa    1952     30.0  4232095     3521.                 0
+##  8 Angola      Africa    2007     42.7 12420476     4797.           8188381
+##  9 Argentina   Americas  1952     62.5 17876956     5911.                 0
+## 10 Argentina   Americas  2007     75.3 40301927    12779.          22424971
 ## # ... with 274 more rows
 ```
 
@@ -399,18 +414,18 @@ g3%>%
 ```
 ## # A tibble: 284 x 7
 ## # Groups:   country [142]
-##    country       continent  year lifeExp        pop gdpPercap population_growth
-##    <fct>         <fct>     <int>   <dbl>      <int>     <dbl>             <int>
-##  1 China         Asia       2007    73.0 1318683096     4959.         762419569
-##  2 India         Asia       2007    64.7 1110396331     2452.         738396331
-##  3 United States Americas   2007    78.2  301139947    42952.         143586947
-##  4 Indonesia     Asia       2007    70.6  223547000     3541.         141495000
-##  5 Brazil        Americas   2007    72.4  190010647     9066.         133408087
-##  6 Pakistan      Asia       2007    65.5  169270617     2606.         127924057
-##  7 Bangladesh    Asia       2007    64.1  150448339     1391.         103561480
-##  8 Nigeria       Africa     2007    46.9  135031164     2014.         101912068
-##  9 Mexico        Americas   2007    76.2  108700891    11978.          78556574
-## 10 Philippines   Asia       2007    71.7   91077287     3190.          68638596
+##    country       continent year  lifeExp        pop gdpPercap population_growth
+##    <fct>         <fct>     <fct>   <dbl>      <int>     <dbl>             <int>
+##  1 China         Asia      2007     73.0 1318683096     4959.         762419569
+##  2 India         Asia      2007     64.7 1110396331     2452.         738396331
+##  3 United States Americas  2007     78.2  301139947    42952.         143586947
+##  4 Indonesia     Asia      2007     70.6  223547000     3541.         141495000
+##  5 Brazil        Americas  2007     72.4  190010647     9066.         133408087
+##  6 Pakistan      Asia      2007     65.5  169270617     2606.         127924057
+##  7 Bangladesh    Asia      2007     64.1  150448339     1391.         103561480
+##  8 Nigeria       Africa    2007     46.9  135031164     2014.         101912068
+##  9 Mexico        Americas  2007     76.2  108700891    11978.          78556574
+## 10 Philippines   Asia      2007     71.7   91077287     3190.          68638596
 ## # ... with 274 more rows
 ```
 
@@ -435,7 +450,7 @@ gapminder%>%
        color= "Country")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 ```r
 gapminder%>%
@@ -457,7 +472,7 @@ gapminder%>%
              labels = c("250", "500", "750", "1000", "1250")) 
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 
 #### 9. How does per-capita GDP growth compare between these same five countries?
@@ -480,7 +495,7 @@ gapminder%>%
              guide = "none")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 
 ```r
@@ -502,7 +517,7 @@ gapminder%>%
              guide = "none")
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
 
 #### 10. Make one plot of your choice that uses faceting!
@@ -535,7 +550,7 @@ gapminder%>%
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](Lab-11-HW_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](Lab-11-HW_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 
 
