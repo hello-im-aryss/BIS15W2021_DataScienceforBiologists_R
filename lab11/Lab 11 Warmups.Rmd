@@ -1,0 +1,296 @@
+---
+title: "Lab11 warmups"
+author: "Aryss Hearne"
+date: "2/15/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#intall.packages("RColorBrewer")
+#install.packages("paletteer")
+```
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+options(scipen=999)
+```
+
+```{r}
+deserts<-readr::read_csv("data/surveys_complete.csv")
+homerange<-readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+```
+```{r}
+deserts%>%
+  filter(species_id=="DM"|species_id=="DS")%>%
+  group_by(year,species_id)%>%
+  summarise(n=n())
+```
+```{r}
+deserts$year<-as.factor(deserts$year)
+```
+```{r}
+deserts%>%
+  filter(species_id=="DM"|species_id=="DS")%>%
+  group_by(year, species_id)%>%
+  summarize(n=n())%>%
+  ggplot(aes(x=year,y=n,group=species_id,color=species_id))+
+  geom_line()+
+  geom_point(shape=1)+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(title="Number of Samples for Species DM",
+       x="Year",
+       fill="n")
+  
+```
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.mass))+
+  geom_histogram(alpha=0.6,color="black",fill="deeppink4", bins=40)+
+  labs(title="Distribution of Body Mass")
+```
+
+```{r}
+grDevices::colors()
+```
+
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.mass))+
+  geom_density(fill="thistle3", alpha=0.6, color="black")+
+  labs(title="distribution of Body Maxx")
+```
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.mass))+
+  geom_histogram(aes(y=..density..),binwidth=.4,fill="thistle3",alpha=0.8,color="deeppink4")+
+  geom_density(color="slateblue")+
+  labs(title="Distribution of Body Maxx")
+```
+
+#Practice
+
+#### 1.Make a histogram of `log10.hra`. Make sure to add a title.
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.hra))+
+  geom_histogram(aes(y=..density..), binwidth =.4, fill="seagreen2", alpha=0.8, color="deeppink4")+
+  labs(title="Distribution of Homerange")
+```
+
+#### 2. Now plot the same variable using `geom_density()`.
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.hra))+
+  geom_density(fill="seagreen2", alpha=0.5, color="olivedrab")+
+  labs(title="Distribution of Homerange")
+```
+
+#### 3. Combine them both!
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.hra))+
+  geom_histogram(aes(y=..density..),binwidth = 0.4, fill="seagreen2",alpha=0.6, color="olivedrab")+
+  geom_density(fill="palegreen4", alpha=0.45, color="wheat4")
+```
+
+```{r}
+glimpse(homerange)
+```
+
+```{r}
+homerange
+```
+
+```{r}
+homerange%>%
+  select(log10.mass)%>%
+  summarize(min=min(log10.mass),
+            max=max(log10.mass))
+```
+
+```{r}
+homerange<-homerange%>%
+  mutate(mass_category=case_when(log10.mass<=1.75~"small",
+         log10.mass>1.74&log10.mass<=2.75~"medium",
+         log10.mass>2.75~"large"))
+```
+
+```{r}
+homerange%>%
+  ggplot(aes(x=mass_category,fill=trophic.guild))+
+  geom_bar()+
+  coord_flip()+
+  labs(title="observations by Taxon and Mass Category in Homerange Data",
+       x="Mass Category",
+       fill="Trophic Guild")
+```
+
+# Practice
+
+#### Use `case_when()` to make a new column `range_category` that breaks down `log10.hra` into very small, small, medium, and large classes based on quartile. 
+
+
+```{r}
+names(homerange)
+```
+
+
+```{r}
+homerange%>%
+  select(log10.hra)%>%
+  summarize(min=min(log10.hra),
+            max=max(log10.hra))
+```
+
+```{r}
+homerange<-homerange%>%
+  mutate(range_category=case_when(log10.hra<=2.768~"very small",
+                                  log10.hra>2.768&log10.hra<=5.5366045~"small",
+                                  log10.hra>5.5366045&log10.hra<=8.305~"medium",
+                                  log10.hra>8.305&log10.hra<=9.55033~"large"))
+```
+
+
+```{r}
+#homerange
+```
+
+#### 2. How many and which taxonomic classes are represented in each of the `range_category` classes?
+
+```{r}
+homerange%>%
+  ggplot(aes(x=range_category, fill=taxon))+
+  geom_bar()+
+  coord_flip()+
+  labs(title="Observations by Txon in Range Category in Homerange Data",
+       x="Range Category",
+       fill="Taxon")
+```
+
+#### 3. Isolate the small `range_category` and plot the range of `log10.mass` by taxonomic class.
+
+```{r}
+homerange%>%
+  filter(range_category=="small")%>%
+  ggplot(aes(x=log10.mass, y=taxon))+
+  geom_col()+
+  coord_flip()+
+  labs(title="Taxa with Small Range Sorted by Mass",
+       y="Taxon",
+       x="Mass")
+```
+
+#Part 2
+
+```{r}
+p<-homerange%>%
+  ggplot(aes(x=taxon, fill=trophic.guild))+
+  geom_bar(na.rm=T,position="dodge")
+p
+```
+
+```{r}
+p+theme_linedraw()+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(title="Observations by Taxon in Homerange Data",
+       x= NULL,
+       y="n",
+       fill="Trophic Guild")
+```
+
+```{r}
+p+theme_linedraw()+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(title="Observations by Taxon in Homerange Data",
+       x=NULL,
+       y="n",
+       fill="Trophic Guild")
+```
+
+```{r}
+#install.packages("ggthemes")
+library(ggthemes)
+```
+
+
+```{r}
+ls("package:ggthemes")[grepl("theme_", ls("package:ggthemes"))]
+```
+
+```{r}
+p+
+  theme_pander()+
+  theme(legend.position = "bottom",
+        axis.text.x=element_text(angle=60,hjust=1))+
+  labs(title="Observations by Taxon in Homerange Data",
+       x= NULL,
+       y="n",
+       fill="Trophic Guild")
+```
+
+```{r}
+?RColorBrewer
+```
+
+```{r}
+display.brewer.pal(8,"PRGn")
+```
+
+```{r}
+p+
+  scale_fill_brewer(palette="Paired")+
+  theme(legend.position="bottom",
+        axis.text.x=element_text(angle=60, hjust=1))+
+  labs(title="Observations by Taxon in Homerange Data",
+       x=NULL,
+       y="n",
+       fill="Trophic Guild")
+```
+
+```{r}
+colors<-paletteer::palettes_d_names
+```
+
+```{r}
+my_palette <- paletteer_d("ggsci::hallmarks_light_cosmic")
+```
+
+```{r}
+barplot(rep(1,14), axes=FALSE, col=my_palette)
+```
+
+```{r}
+p+scale_fill_manual(values=my_palette)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+
+```{r}
+homerange%>%
+  ggplot(aes(x=log10.mass, y=log10.hra, color=locomotion))+
+  geom_point()+
+  xlim(0,4)+
+  ylim(1,6)
+```
+
