@@ -19,10 +19,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.5     √ dplyr   1.0.3
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.1
 ```
 
 ```
@@ -51,7 +51,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/starf/Documents/GitHub/BIS15W2021_ahearne
+## here() starts at D:/TA files/Winter2021 BIS15L/students_rep/BIS15W2021_ahearne
 ```
 
 ```r
@@ -166,10 +166,6 @@ gapminder%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## geom_path: Each group consists of only one observation. Do you need to adjust
 ## the group aesthetic?
 ```
@@ -229,7 +225,7 @@ gapminder2<-gapminder%>%
 ```
 
 ```
-## `summarise()` regrouping output by 'continent' (override with `.groups` argument)
+## `summarise()` has grouped output by 'continent'. You can override using the `.groups` argument.
 ```
 
 ```r
