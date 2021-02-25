@@ -1,0 +1,325 @@
+---
+title: "Lab 12 Warmups"
+author: "Aryss Hearne"
+date: "2/23/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+library(ggmap)
+```
+
+```{r}
+files<-list.files("data/spiders",".csv")
+files
+```
+```{r}
+files<-list.files("data/spiders",".csv",full.names=TRUE)
+files
+```
+
+```{r}
+spider_list<-lapply(files, read_csv)
+spider_list[[3]]
+```
+```{r}
+class(spider_list[[3]])
+```
+#### 1. What are the names of our list elements?
+
+```{r}
+names(spider_list[[3]])
+```
+```{r}
+names<-list.files("data/spiders",".csv")
+names_list<-strsplit(names,split=".csv")
+names_list
+```
+```{r}
+names_vec<-unlist(names_list)
+names_vec
+```
+
+```{r}
+names(spider_list)<-names_vec
+names(spider_list)
+```
+#### 1. Now that our list elements are named, how could we access the Butte County data by name?
+
+
+```{r}
+spider_list$Butte
+```
+
+```{r}
+spiders_all<-bind_rows(spider_list)
+spiders_all
+```
+
+```{r}
+table_A<-readr::read_csv("data/table_A.csv")
+table_B<-readr::read_csv("data/table_B.csv")
+```
+```{r}
+inner_ex<-inner_join(table_A,table_B,by="customer_ID")
+inner_ex
+```
+
+```{r}
+left_ex<-left_join(table_A,table_B,by="customer_ID")
+left_ex
+```
+
+```{r}
+right_ex<-right_join(table_A,table_B,by="customer_ID")
+right_ex
+```
+```{r}
+full_ex<-full_join(table_A,table_B,by="customer_ID")
+full_ex
+```
+```{r}
+semi_ex<-semi_join(table_A,table_B,by="customer_ID")
+semi_ex
+```
+```{r}
+anti_ex<-anti_join(table_A,table_B,by="customer_ID")
+anti_ex
+```
+
+```{r}
+spiders_loc <- read_csv("data/spiders locations/spiders_locations.csv")
+spiders_loc
+```
+```{r}
+spiders_with_locs<-left_join(spiders_all, spiders_loc,by=c("Accession"))
+summary(spiders_with_locs)
+```
+
+
+```{r}
+class(spiders_with_locs$Date)
+```
+
+```{r}
+day<-today()
+str(day)
+```
+
+```{r}
+datetime<-now()
+datetime
+```
+```{r}
+dmy(spiders_with_locs$Date)
+```
+
+#### 1. Convert each of the examples above using lubridate.
+
+```{r}
+year(day)
+```
+```{r}
+year(datetime)
+```
+
+```{r}
+month(day)
+```
+```{r}
+day(day)
+```
+```{r}
+hour(datetime)
+```
+```{r}
+minute(datetime)
+```
+```{r}
+second(datetime)
+```
+```{r}
+wday(datetime, label=T)
+```
+
+```{r}
+write.csv(spiders_with_locs, file="spiders_with_locs.csv", row.names=F)
+```
+
+```{r}
+#install.packages("remotes")
+#remotes::install_github("https://github.com/hrbrmstr/albersusa")
+```
+
+
+# Part 2
+
+
+```{r}
+library(ggmap)
+```
+
+```{r}
+spiders<-readr::read_csv("data/spiders_with_locs.csv")%>%
+  clean_names()
+```
+
+```{r}
+spiders<-spiders%>%filter(latitude<=42)
+```
+
+```{r}
+spiders%>%
+  select(latitude, longitude)%>%
+  summary()
+```
+
+```{r}
+lat<-c(34.67,41.80)
+long<-c(-124.1, -115.5)
+bbox<-make_bbox(long,lat,f=0.05)
+```
+
+```{r}
+map1<-get_map(bbox, maptype="terrain",source="stamen")
+```
+```{r}
+ggmap(map1)
+```
+
+```{r}
+ggmap(map1)+
+  geom_point(data=spiders,aes(longitude,latitude))+
+  labs(x="Longitude",
+       y="Latitude",
+       title="Spider Locations")
+```
+
+
+#### 1. Map the spider locations with a different type of base map. Try to adjust the map using different aesthetics including `size`, `color`, and `alpha`.
+
+```{r}
+names(spiders)
+```
+
+
+```{r}
+map2<-get_map(bbox, maptype="watercolor",source="stamen")
+library(ggthemes)
+my_lil_palette<- LaCroixColoR::lacroix_palette("Pamplemousse", type = "discrete")
+my_lil_palette_cont<-LaCroixColoR::lacroix_palette("Pamplemousse", n = 50, type = "continuous")
+barplot(rep(1,14), axes=FALSE, col=my_lil_palette)
+```
+
+```{r}
+ggmap(map2)+
+  geom_point(data=spiders,aes(longitude,latitude, color=county, size=accession), alpha=0.5)+
+  labs(x="Longitude",
+       y="Latitude",
+       title="Spider Locations")+
+  scale_color_manual(values=my_lil_palette_cont)+
+  theme_solarized()+
+  theme(legend.position="right",
+        axis.text.x=element_text(angle=60, hjust=1))+
+  labs(title="Spider Locations",
+       x=NULL,
+       y=NULL,
+       color="County",
+       size="Accension")+
+  scale_size(range = c(1, 10))
+
+```
+
+```{r}
+library(albersusa)
+```
+
+```{r}
+us_comp<-usa_sf()
+```
+```{r}
+cnty_comp<-counties_sf()
+```
+```{r}
+ggplot()+
+  geom_sf(data=us_comp, size=0.125)+
+  theme_linedraw()+
+  labs(title="USA State Boundaries")
+```
+```{r}
+ca_comp<-us_comp%>%
+  filter(name=="California")
+```
+
+```{r}
+ca_cnty_comp<-cnty_comp%>%
+  filter(state=="California")
+```
+
+```{r}
+ggplot()+
+  geom_sf(data=ca_comp, size=0.125)+
+  geom_sf(data=ca_cnty_comp, size=0.125)
+```
+
+```{r}
+ggplot()+
+  geom_sf(data=ca_comp, size=0.125)+
+  geom_sf(data=ca_cnty_comp, size=0.125)+
+  geom_point(data=spiders, aes(longitude, latitude))
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = ca_comp, size = 0.125)+
+  geom_sf(data = ca_cnty_comp, size = 0.125)+
+  geom_point(data = spiders, aes(longitude, latitude))+
+  labs(x = "Figure 1: Distribution of Usofila spiders")+
+  theme_minimal() +
+  theme(axis.text = element_blank()) +
+  theme(axis.title.x = element_text(hjust=0.5, size = 10)) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid = element_blank()) +
+  theme(legend.position = c(0.9, 0.3)) -> uso_map
+uso_map
+```
+
+
+#Practice
+#### Make a new column that labels each specimen as occurring in a cave or on the surface. The word “Cave” is part of the locality information.
+
+```{r}
+spiders
+```
+
+```{r}
+spiders<-spiders%>%
+  mutate(depth=case_when(grepl("Cave", locality)~ "Subterranian",
+                         grepl(".", locality)~ "Terranian"))
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = ca_comp, size = 0.125)+
+  geom_sf(data = ca_cnty_comp, size = 0.125)+
+  geom_point(data = spiders, aes(longitude, latitude, color=depth))+
+  labs(x = "Figure 1: Distribution of Usofila spiders")+
+  theme_minimal() +
+  theme(axis.text = element_blank()) +
+  theme(axis.title.x = element_text(hjust=0.5, size = 10)) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid = element_blank()) +
+  theme(legend.position = c(0.9, 0.3))
+```
+
