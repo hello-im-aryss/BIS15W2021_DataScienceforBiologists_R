@@ -19,10 +19,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.6     √ dplyr   1.0.4
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.1
 ```
 
 ```
@@ -51,7 +51,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/starf/Documents/GitHub/BIS15W2021_ahearne
+## here() starts at D:/TA files/Winter2021 BIS15L/students_rep/BIS15W2021_ahearne
 ```
 
 ```r
@@ -168,7 +168,83 @@ mapb<-get_map(bboxb, maptype = "terrain", source="stamen")
 ```
 
 ```
-## Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+## Source : http://tile.stamen.com/terrain/5/1/6.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/2/6.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/3/6.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/4/6.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/1/7.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/2/7.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/3/7.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/4/7.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/1/8.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/2/8.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/3/8.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/4/8.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/1/9.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/2/9.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/3/9.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/4/9.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/1/10.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/2/10.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/3/10.png
+```
+
+```
+## Source : http://tile.stamen.com/terrain/5/4/10.png
 ```
 
 ```r
@@ -302,13 +378,9 @@ see_wolves_below%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 6 x 2
 ##     lat mean_packsize
-##   <dbl>         <dbl>
+## * <dbl>         <dbl>
 ## 1  33.9          4.04
 ## 2  43.8          8.1 
 ## 3  44.6          8.25
