@@ -1,0 +1,158 @@
+---
+title: "Lab 13 Warmup"
+author: "Aryss Hearne"
+date: "2/25/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("shiny")
+library(shiny)
+library(tidyverse)
+library(palmerpenguins)
+#install.packages("shinydashboard")
+library(shinydashboard)
+```
+
+#Part 1
+
+```{r}
+ui<-fluidPage()
+server<-function(input,output,session){}
+shinyApp(ui,server)
+```
+
+```{r}
+names(penguins)
+```
+```{r}
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm")
+)
+server<-function(input,output,session){
+}
+shinyApp(ui,server)
+```
+
+```{r}
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm"),
+  selectInput("y", "Select Y Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm")
+)
+server<-function(input,output,session){
+}
+shinyApp(ui,server)
+```
+
+```{r}
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm"),
+  selectInput("y", "Select Y Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm")
+)
+server<-function(input,output,session){
+  reactive({input$x
+    input$y})
+}
+shinyApp(ui,server)
+```
+
+```{r}
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm"),
+  selectInput("y", "Select Y Variable", choices=c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm"),
+  plotOutput("plot", width="500px", height="400px")
+)
+server<-function(input, output, session){
+  output$plot<-renderPlot({
+    ggplot(penguins, aes_string(x=input$x, y=input$y, color="species"))+
+      geom_point()+
+      theme_light(base_size = 18)
+  })
+}
+shinyApp(ui,server)
+```
+#### Practice
+
+```{r}
+homerange<-readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+names(homerange)
+```
+
+```{r}
+ui <- fluidPage(    
+  
+  titlePanel("Log 10 Homerange by Taxon"), # give the page a title
+  
+  # generate a row with a sidebar
+  sidebarLayout(      
+    
+    # define the sidebar with one input
+    sidebarPanel(
+      selectInput("taxon", " Select Taxon of Interest:", 
+                  choices=unique(homerange$taxon)),
+      hr(),
+      helpText("Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211.")
+    ),
+    
+    # create a spot for the barplot
+    mainPanel(
+      plotOutput("taxonPlot")  
+    )
+    
+  )
+)
+
+# define a server for the Shiny app
+server <- function(input, output) {
+  
+  # fill in the spot we created for a plot
+  output$taxonPlot <- renderPlot({
+    
+    homerange %>% 
+    filter(taxon == input$taxon) %>% 
+    ggplot(aes(x=log10.hra)) + 
+    geom_density(color="black", fill="steelblue", alpha=0.6)
+  })
+}
+
+shinyApp(ui, server)
+```
+```{r}
+ui<-dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(),
+  dashboardBody()
+)
+
+server<-function(input, output){}
+
+shinyApp(ui, server)
+```
+
+```{r}
+ui<- dashboardPage(
+  dashboardHeader(title="Penguins"),
+  dashboardSidebar(),
+  dashboardBody()
+)
+
+server<-function(input,output){}
+shinyApp(ui,server)
+```
+```{r}
+names(penguins)
+```
+

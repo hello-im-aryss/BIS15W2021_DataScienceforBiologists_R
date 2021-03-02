@@ -1,29 +1,41 @@
-library("shiny")
-library("naniar")
-library("tidyverse")
-library("shinydashboard")
+---
+output: html_document
+runtime: shiny
+---
+library(shiny)
+library(tidyverse)
 homerange<-readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+
 
 ui <- fluidPage(    
   
   titlePanel("Log 10 Homerange by Taxon"), # give the page a title
   
-  titlePanel("Log 10 Homerange by Taxon"), 
+  # generate a row with a sidebar
   sidebarLayout(      
+    
+    # define the sidebar with one input
     sidebarPanel(
-      selectInput("taxon", " Select Taxon of Interest:", choices=unique(homerange$taxon)),
+      selectInput("taxon", " Select Taxon of Interest:", 
+                  choices=unique(homerange$taxon)),
       hr(),
       helpText("Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211.")
     ),
+    
+    # create a spot for the barplot
     mainPanel(
       plotOutput("taxonPlot")  
     )
+    
   )
 )
 
-server <- function(input, output, session) {
-  session$onSessionEnded(stopApp)
+# define a server for the Shiny app
+server <- function(input, output) {
+  
+  # fill in the spot we created for a plot
   output$taxonPlot <- renderPlot({
+    
     homerange %>% 
       filter(taxon == input$taxon) %>% 
       ggplot(aes(x=log10.hra)) + 
