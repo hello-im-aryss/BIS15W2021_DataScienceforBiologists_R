@@ -45,6 +45,8 @@ virus2%>%
     geom_point()+
   coord_flip()
 ```
+
+
 ```{r}
 virus2%>%
   group_by(subgroup)%>%
