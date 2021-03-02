@@ -1,0 +1,148 @@
+---
+title: "Lab13HW"
+author: "Aryss Hearne"
+date: "3/1/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(shiny)
+library(shinydashboard)
+library(janitor)
+```
+
+```{r}
+uc_admit<-readr::read_csv("data/UC_admit.csv")
+```
+
+#### 1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine if there are NA’s and how they are treated.
+
+```{r}
+#summary(Uc_admit)
+#glimpse(uc_admit)
+uc_admit<-clean_names(uc_admit)
+names(uc_admit)
+```
+```{r}
+uc_admit2<-uc_admit%>%
+  mutate(percent_fr=str_replace(perc_fr, "%", ""))%>%
+  select(campus, academic_yr, category, ethnicity, percent_fr, filtered_count_fr)%>%
+  filter(ethnicity!="All")
+uc_admit2
+```
+
+
+
+```{r}
+uc_admit2$academic_yr<-as.factor(uc_admit2$academic_yr)
+uc_admit2$percent_fr<-as.numeric(uc_admit2$percent_fr)
+```
+
+
+```{r}
+names(uc_admit2)
+```
+
+
+#### 2. The president of UC has asked you to build a shiny app that shows admissions by ethnicity across all UC campuses. Your app should allow users to explore year, campus, and admit category as interactive variables. Use shiny dashboard and try to incorporate the aesthetics you have learned in ggplot to make the app neat and clean.
+
+
+```{r}
+#Planning and plotting (get it? PLOTTING!)
+uc_admit2%>%
+  ggplot(aes(x=category, y=percent_fr, fill=ethnicity, group=ethnicity))+
+  geom_col()
+```
+
+```{r}
+#Setting up the X Inputs
+
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("campus", "academic_yr", "category"),
+              selected="campus")
+)
+server<-function(input, output, session){
+}
+shinyApp(ui,server)
+```
+
+```{r}
+#Adding Static Y Input
+ui<-fluidPage(
+  selectInput("x", "Select X Variable", choices=c("campus", "academic_yr", "category"),
+              selected="campus"),
+  plotOutput("plot", width="500px", height="400px")
+)
+server<-function(input, output, session){
+  output$plot<-renderPlot({
+    uc_admit2%>%
+    ggplot(aes_string(x=input$x, y="percent_fr", fill="ethnicity"))+
+    geom_col()+
+    theme_light(base_size=18)+
+    theme(legend.position="right",
+        axis.text.x=element_text(angle=60, hjust=1))
+})
+}
+shinyApp(ui,server)
+```
+```{r}
+#Adding format
+ui<-dashboardPage(
+  dashboardHeader(title="UC Data by Ethnicity"),
+  dashboardSidebar(disable=T),
+  dashboardBody(
+    fluidRow(
+      box(title="Data Select", width=10,
+  selectInput("x", "Select X Variable", choices=c("campus", "academic_yr", "category"),
+              selected="campus"),
+  plotOutput("plot", width="700px", height="400px")
+))))
+server<-function(input, output, session){
+  output$plot<-renderPlot({
+    uc_admit2%>%
+    ggplot(aes_string(x=input$x, y="percent_fr", fill="ethnicity", group="ethnicity"))+
+    geom_col()+
+    theme_light(base_size=18)+
+    theme(legend.position="right",
+        axis.text.x=element_text(angle=60, hjust=1))+
+      coord_flip()
+})
+   session$onSessionEnded(stopApp)
+}
+shinyApp(ui,server)
+```
+#### 3. Make alternate version of your app above by tracking enrollment at a campus over all of the represented years while allowing users to interact with campus, category, and ethnicity.
+
+```{r}
+ui<-dashboardPage(
+  dashboardHeader(title="UC Data by Ethnicity"),
+  dashboardSidebar(disable=T),
+  dashboardBody(
+    fluidRow(
+      box(title="Data Select", width=10,
+  selectInput("x", "Select X Variable", choices=c("campus", "ethnicity", "category"),
+              selected="campus"),
+  plotOutput("plot", width="700px", height="400px")
+))))
+server<-function(input, output, session){
+  output$plot<-renderPlot({
+    uc_admit2%>%
+    ggplot(aes_string(x=input$x, y="percent_fr", fill="academic_yr", group="academic_yr"))+
+    geom_col()+
+    theme_light(base_size=18)+
+    theme(legend.position="right",
+        axis.text.x=element_text(angle=60, hjust=1))+
+      coord_flip()
+})
+   session$onSessionEnded(stopApp)
+}
+shinyApp(ui,server)
+```
+
