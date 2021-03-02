@@ -1,7 +1,7 @@
 ---
 title: "Midterm 2"
 author: "Aryss Hearne"
-date: "2021-02-22"
+date: "2021-02-28"
 output:
   html_document: 
     theme: spacelab
@@ -28,10 +28,10 @@ library(tidyverse)
 ```
 
 ```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
+## √ ggplot2 3.3.3     √ purrr   0.3.4
+## √ tibble  3.0.6     √ dplyr   1.0.4
+## √ tidyr   1.1.2     √ stringr 1.4.0
+## √ readr   1.4.0     √ forcats 0.5.1
 ```
 
 ```
@@ -60,7 +60,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/starf/Documents/GitHub/BIS15W2021_ahearne
+## here() starts at D:/TA files/Winter2021 BIS15L/students_rep/BIS15W2021_ahearne
 ```
 
 ```r
@@ -125,27 +125,24 @@ population
 ##  8 Armenia 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5 4.13e5
 ##  9 Austra~ 2.00e5 2.05e5 2.11e5 2.16e5 2.22e5 2.27e5 2.33e5 2.39e5 2.46e5 2.52e5
 ## 10 Austria 3.00e6 3.02e6 3.04e6 3.05e6 3.07e6 3.09e6 3.11e6 3.12e6 3.14e6 3.16e6
-## # ... with 185 more rows, and 291 more variables: `1810` <dbl>, `1811` <dbl>,
-## #   `1812` <dbl>, `1813` <dbl>, `1814` <dbl>, `1815` <dbl>, `1816` <dbl>,
-## #   `1817` <dbl>, `1818` <dbl>, `1819` <dbl>, `1820` <dbl>, `1821` <dbl>,
-## #   `1822` <dbl>, `1823` <dbl>, `1824` <dbl>, `1825` <dbl>, `1826` <dbl>,
-## #   `1827` <dbl>, `1828` <dbl>, `1829` <dbl>, `1830` <dbl>, `1831` <dbl>,
-## #   `1832` <dbl>, `1833` <dbl>, `1834` <dbl>, `1835` <dbl>, `1836` <dbl>,
-## #   `1837` <dbl>, `1838` <dbl>, `1839` <dbl>, `1840` <dbl>, `1841` <dbl>,
-## #   `1842` <dbl>, `1843` <dbl>, `1844` <dbl>, `1845` <dbl>, `1846` <dbl>,
-## #   `1847` <dbl>, `1848` <dbl>, `1849` <dbl>, `1850` <dbl>, `1851` <dbl>,
-## #   `1852` <dbl>, `1853` <dbl>, `1854` <dbl>, `1855` <dbl>, `1856` <dbl>,
-## #   `1857` <dbl>, `1858` <dbl>, `1859` <dbl>, `1860` <dbl>, `1861` <dbl>,
-## #   `1862` <dbl>, `1863` <dbl>, `1864` <dbl>, `1865` <dbl>, `1866` <dbl>,
-## #   `1867` <dbl>, `1868` <dbl>, `1869` <dbl>, `1870` <dbl>, `1871` <dbl>,
-## #   `1872` <dbl>, `1873` <dbl>, `1874` <dbl>, `1875` <dbl>, `1876` <dbl>,
-## #   `1877` <dbl>, `1878` <dbl>, `1879` <dbl>, `1880` <dbl>, `1881` <dbl>,
-## #   `1882` <dbl>, `1883` <dbl>, `1884` <dbl>, `1885` <dbl>, `1886` <dbl>,
-## #   `1887` <dbl>, `1888` <dbl>, `1889` <dbl>, `1890` <dbl>, `1891` <dbl>,
-## #   `1892` <dbl>, `1893` <dbl>, `1894` <dbl>, `1895` <dbl>, `1896` <dbl>,
-## #   `1897` <dbl>, `1898` <dbl>, `1899` <dbl>, `1900` <dbl>, `1901` <dbl>,
-## #   `1902` <dbl>, `1903` <dbl>, `1904` <dbl>, `1905` <dbl>, `1906` <dbl>,
-## #   `1907` <dbl>, `1908` <dbl>, `1909` <dbl>, ...
+## # ... with 185 more rows, and 291 more variables: 1810 <dbl>, 1811 <dbl>,
+## #   1812 <dbl>, 1813 <dbl>, 1814 <dbl>, 1815 <dbl>, 1816 <dbl>, 1817 <dbl>,
+## #   1818 <dbl>, 1819 <dbl>, 1820 <dbl>, 1821 <dbl>, 1822 <dbl>, 1823 <dbl>,
+## #   1824 <dbl>, 1825 <dbl>, 1826 <dbl>, 1827 <dbl>, 1828 <dbl>, 1829 <dbl>,
+## #   1830 <dbl>, 1831 <dbl>, 1832 <dbl>, 1833 <dbl>, 1834 <dbl>, 1835 <dbl>,
+## #   1836 <dbl>, 1837 <dbl>, 1838 <dbl>, 1839 <dbl>, 1840 <dbl>, 1841 <dbl>,
+## #   1842 <dbl>, 1843 <dbl>, 1844 <dbl>, 1845 <dbl>, 1846 <dbl>, 1847 <dbl>,
+## #   1848 <dbl>, 1849 <dbl>, 1850 <dbl>, 1851 <dbl>, 1852 <dbl>, 1853 <dbl>,
+## #   1854 <dbl>, 1855 <dbl>, 1856 <dbl>, 1857 <dbl>, 1858 <dbl>, 1859 <dbl>,
+## #   1860 <dbl>, 1861 <dbl>, 1862 <dbl>, 1863 <dbl>, 1864 <dbl>, 1865 <dbl>,
+## #   1866 <dbl>, 1867 <dbl>, 1868 <dbl>, 1869 <dbl>, 1870 <dbl>, 1871 <dbl>,
+## #   1872 <dbl>, 1873 <dbl>, 1874 <dbl>, 1875 <dbl>, 1876 <dbl>, 1877 <dbl>,
+## #   1878 <dbl>, 1879 <dbl>, 1880 <dbl>, 1881 <dbl>, 1882 <dbl>, 1883 <dbl>,
+## #   1884 <dbl>, 1885 <dbl>, 1886 <dbl>, 1887 <dbl>, 1888 <dbl>, 1889 <dbl>,
+## #   1890 <dbl>, 1891 <dbl>, 1892 <dbl>, 1893 <dbl>, 1894 <dbl>, 1895 <dbl>,
+## #   1896 <dbl>, 1897 <dbl>, 1898 <dbl>, 1899 <dbl>, 1900 <dbl>, 1901 <dbl>,
+## #   1902 <dbl>, 1903 <dbl>, 1904 <dbl>, 1905 <dbl>, 1906 <dbl>, 1907 <dbl>,
+## #   1908 <dbl>, 1909 <dbl>, ...
 ```
 
 
@@ -192,27 +189,24 @@ income
 ##  8 Armenia    514    514    514    514    514    514    514    514    514    514
 ##  9 Austra~    817    822    826    831    836    841    845    850    855    860
 ## 10 Austria   1850   1850   1860   1870   1880   1880   1890   1900   1910   1920
-## # ... with 183 more rows, and 231 more variables: `1810` <dbl>, `1811` <dbl>,
-## #   `1812` <dbl>, `1813` <dbl>, `1814` <dbl>, `1815` <dbl>, `1816` <dbl>,
-## #   `1817` <dbl>, `1818` <dbl>, `1819` <dbl>, `1820` <dbl>, `1821` <dbl>,
-## #   `1822` <dbl>, `1823` <dbl>, `1824` <dbl>, `1825` <dbl>, `1826` <dbl>,
-## #   `1827` <dbl>, `1828` <dbl>, `1829` <dbl>, `1830` <dbl>, `1831` <dbl>,
-## #   `1832` <dbl>, `1833` <dbl>, `1834` <dbl>, `1835` <dbl>, `1836` <dbl>,
-## #   `1837` <dbl>, `1838` <dbl>, `1839` <dbl>, `1840` <dbl>, `1841` <dbl>,
-## #   `1842` <dbl>, `1843` <dbl>, `1844` <dbl>, `1845` <dbl>, `1846` <dbl>,
-## #   `1847` <dbl>, `1848` <dbl>, `1849` <dbl>, `1850` <dbl>, `1851` <dbl>,
-## #   `1852` <dbl>, `1853` <dbl>, `1854` <dbl>, `1855` <dbl>, `1856` <dbl>,
-## #   `1857` <dbl>, `1858` <dbl>, `1859` <dbl>, `1860` <dbl>, `1861` <dbl>,
-## #   `1862` <dbl>, `1863` <dbl>, `1864` <dbl>, `1865` <dbl>, `1866` <dbl>,
-## #   `1867` <dbl>, `1868` <dbl>, `1869` <dbl>, `1870` <dbl>, `1871` <dbl>,
-## #   `1872` <dbl>, `1873` <dbl>, `1874` <dbl>, `1875` <dbl>, `1876` <dbl>,
-## #   `1877` <dbl>, `1878` <dbl>, `1879` <dbl>, `1880` <dbl>, `1881` <dbl>,
-## #   `1882` <dbl>, `1883` <dbl>, `1884` <dbl>, `1885` <dbl>, `1886` <dbl>,
-## #   `1887` <dbl>, `1888` <dbl>, `1889` <dbl>, `1890` <dbl>, `1891` <dbl>,
-## #   `1892` <dbl>, `1893` <dbl>, `1894` <dbl>, `1895` <dbl>, `1896` <dbl>,
-## #   `1897` <dbl>, `1898` <dbl>, `1899` <dbl>, `1900` <dbl>, `1901` <dbl>,
-## #   `1902` <dbl>, `1903` <dbl>, `1904` <dbl>, `1905` <dbl>, `1906` <dbl>,
-## #   `1907` <dbl>, `1908` <dbl>, `1909` <dbl>, ...
+## # ... with 183 more rows, and 231 more variables: 1810 <dbl>, 1811 <dbl>,
+## #   1812 <dbl>, 1813 <dbl>, 1814 <dbl>, 1815 <dbl>, 1816 <dbl>, 1817 <dbl>,
+## #   1818 <dbl>, 1819 <dbl>, 1820 <dbl>, 1821 <dbl>, 1822 <dbl>, 1823 <dbl>,
+## #   1824 <dbl>, 1825 <dbl>, 1826 <dbl>, 1827 <dbl>, 1828 <dbl>, 1829 <dbl>,
+## #   1830 <dbl>, 1831 <dbl>, 1832 <dbl>, 1833 <dbl>, 1834 <dbl>, 1835 <dbl>,
+## #   1836 <dbl>, 1837 <dbl>, 1838 <dbl>, 1839 <dbl>, 1840 <dbl>, 1841 <dbl>,
+## #   1842 <dbl>, 1843 <dbl>, 1844 <dbl>, 1845 <dbl>, 1846 <dbl>, 1847 <dbl>,
+## #   1848 <dbl>, 1849 <dbl>, 1850 <dbl>, 1851 <dbl>, 1852 <dbl>, 1853 <dbl>,
+## #   1854 <dbl>, 1855 <dbl>, 1856 <dbl>, 1857 <dbl>, 1858 <dbl>, 1859 <dbl>,
+## #   1860 <dbl>, 1861 <dbl>, 1862 <dbl>, 1863 <dbl>, 1864 <dbl>, 1865 <dbl>,
+## #   1866 <dbl>, 1867 <dbl>, 1868 <dbl>, 1869 <dbl>, 1870 <dbl>, 1871 <dbl>,
+## #   1872 <dbl>, 1873 <dbl>, 1874 <dbl>, 1875 <dbl>, 1876 <dbl>, 1877 <dbl>,
+## #   1878 <dbl>, 1879 <dbl>, 1880 <dbl>, 1881 <dbl>, 1882 <dbl>, 1883 <dbl>,
+## #   1884 <dbl>, 1885 <dbl>, 1886 <dbl>, 1887 <dbl>, 1888 <dbl>, 1889 <dbl>,
+## #   1890 <dbl>, 1891 <dbl>, 1892 <dbl>, 1893 <dbl>, 1894 <dbl>, 1895 <dbl>,
+## #   1896 <dbl>, 1897 <dbl>, 1898 <dbl>, 1899 <dbl>, 1900 <dbl>, 1901 <dbl>,
+## #   1902 <dbl>, 1903 <dbl>, 1904 <dbl>, 1905 <dbl>, 1906 <dbl>, 1907 <dbl>,
+## #   1908 <dbl>, 1909 <dbl>, ...
 ```
 
 ```r
@@ -259,27 +253,24 @@ life_expectancy
 ##  8 Armenia   34     34     34     34     34     34     34     34     34     34  
 ##  9 Austra~   34     34     34     34     34     34     34     34     34     34  
 ## 10 Austria   34.4   34.4   34.4   34.4   34.4   34.4   34.4   34.4   34.4   34.4
-## # ... with 177 more rows, and 291 more variables: `1810` <dbl>, `1811` <dbl>,
-## #   `1812` <dbl>, `1813` <dbl>, `1814` <dbl>, `1815` <dbl>, `1816` <dbl>,
-## #   `1817` <dbl>, `1818` <dbl>, `1819` <dbl>, `1820` <dbl>, `1821` <dbl>,
-## #   `1822` <dbl>, `1823` <dbl>, `1824` <dbl>, `1825` <dbl>, `1826` <dbl>,
-## #   `1827` <dbl>, `1828` <dbl>, `1829` <dbl>, `1830` <dbl>, `1831` <dbl>,
-## #   `1832` <dbl>, `1833` <dbl>, `1834` <dbl>, `1835` <dbl>, `1836` <dbl>,
-## #   `1837` <dbl>, `1838` <dbl>, `1839` <dbl>, `1840` <dbl>, `1841` <dbl>,
-## #   `1842` <dbl>, `1843` <dbl>, `1844` <dbl>, `1845` <dbl>, `1846` <dbl>,
-## #   `1847` <dbl>, `1848` <dbl>, `1849` <dbl>, `1850` <dbl>, `1851` <dbl>,
-## #   `1852` <dbl>, `1853` <dbl>, `1854` <dbl>, `1855` <dbl>, `1856` <dbl>,
-## #   `1857` <dbl>, `1858` <dbl>, `1859` <dbl>, `1860` <dbl>, `1861` <dbl>,
-## #   `1862` <dbl>, `1863` <dbl>, `1864` <dbl>, `1865` <dbl>, `1866` <dbl>,
-## #   `1867` <dbl>, `1868` <dbl>, `1869` <dbl>, `1870` <dbl>, `1871` <dbl>,
-## #   `1872` <dbl>, `1873` <dbl>, `1874` <dbl>, `1875` <dbl>, `1876` <dbl>,
-## #   `1877` <dbl>, `1878` <dbl>, `1879` <dbl>, `1880` <dbl>, `1881` <dbl>,
-## #   `1882` <dbl>, `1883` <dbl>, `1884` <dbl>, `1885` <dbl>, `1886` <dbl>,
-## #   `1887` <dbl>, `1888` <dbl>, `1889` <dbl>, `1890` <dbl>, `1891` <dbl>,
-## #   `1892` <dbl>, `1893` <dbl>, `1894` <dbl>, `1895` <dbl>, `1896` <dbl>,
-## #   `1897` <dbl>, `1898` <dbl>, `1899` <dbl>, `1900` <dbl>, `1901` <dbl>,
-## #   `1902` <dbl>, `1903` <dbl>, `1904` <dbl>, `1905` <dbl>, `1906` <dbl>,
-## #   `1907` <dbl>, `1908` <dbl>, `1909` <dbl>, ...
+## # ... with 177 more rows, and 291 more variables: 1810 <dbl>, 1811 <dbl>,
+## #   1812 <dbl>, 1813 <dbl>, 1814 <dbl>, 1815 <dbl>, 1816 <dbl>, 1817 <dbl>,
+## #   1818 <dbl>, 1819 <dbl>, 1820 <dbl>, 1821 <dbl>, 1822 <dbl>, 1823 <dbl>,
+## #   1824 <dbl>, 1825 <dbl>, 1826 <dbl>, 1827 <dbl>, 1828 <dbl>, 1829 <dbl>,
+## #   1830 <dbl>, 1831 <dbl>, 1832 <dbl>, 1833 <dbl>, 1834 <dbl>, 1835 <dbl>,
+## #   1836 <dbl>, 1837 <dbl>, 1838 <dbl>, 1839 <dbl>, 1840 <dbl>, 1841 <dbl>,
+## #   1842 <dbl>, 1843 <dbl>, 1844 <dbl>, 1845 <dbl>, 1846 <dbl>, 1847 <dbl>,
+## #   1848 <dbl>, 1849 <dbl>, 1850 <dbl>, 1851 <dbl>, 1852 <dbl>, 1853 <dbl>,
+## #   1854 <dbl>, 1855 <dbl>, 1856 <dbl>, 1857 <dbl>, 1858 <dbl>, 1859 <dbl>,
+## #   1860 <dbl>, 1861 <dbl>, 1862 <dbl>, 1863 <dbl>, 1864 <dbl>, 1865 <dbl>,
+## #   1866 <dbl>, 1867 <dbl>, 1868 <dbl>, 1869 <dbl>, 1870 <dbl>, 1871 <dbl>,
+## #   1872 <dbl>, 1873 <dbl>, 1874 <dbl>, 1875 <dbl>, 1876 <dbl>, 1877 <dbl>,
+## #   1878 <dbl>, 1879 <dbl>, 1880 <dbl>, 1881 <dbl>, 1882 <dbl>, 1883 <dbl>,
+## #   1884 <dbl>, 1885 <dbl>, 1886 <dbl>, 1887 <dbl>, 1888 <dbl>, 1889 <dbl>,
+## #   1890 <dbl>, 1891 <dbl>, 1892 <dbl>, 1893 <dbl>, 1894 <dbl>, 1895 <dbl>,
+## #   1896 <dbl>, 1897 <dbl>, 1898 <dbl>, 1899 <dbl>, 1900 <dbl>, 1901 <dbl>,
+## #   1902 <dbl>, 1903 <dbl>, 1904 <dbl>, 1905 <dbl>, 1906 <dbl>, 1907 <dbl>,
+## #   1908 <dbl>, 1909 <dbl>, ...
 ```
 
 ```r
@@ -294,27 +285,23 @@ life_expectancy%>%
 ##   country `1800` `1801` `1802` `1803` `1804` `1805` `1806` `1807` `1808` `1809`
 ##     <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>
 ## 1       0      3      3      3      3      3      3      3      3      3      3
-## # ... with 291 more variables: `1810` <int>, `1811` <int>, `1812` <int>,
-## #   `1813` <int>, `1814` <int>, `1815` <int>, `1816` <int>, `1817` <int>,
-## #   `1818` <int>, `1819` <int>, `1820` <int>, `1821` <int>, `1822` <int>,
-## #   `1823` <int>, `1824` <int>, `1825` <int>, `1826` <int>, `1827` <int>,
-## #   `1828` <int>, `1829` <int>, `1830` <int>, `1831` <int>, `1832` <int>,
-## #   `1833` <int>, `1834` <int>, `1835` <int>, `1836` <int>, `1837` <int>,
-## #   `1838` <int>, `1839` <int>, `1840` <int>, `1841` <int>, `1842` <int>,
-## #   `1843` <int>, `1844` <int>, `1845` <int>, `1846` <int>, `1847` <int>,
-## #   `1848` <int>, `1849` <int>, `1850` <int>, `1851` <int>, `1852` <int>,
-## #   `1853` <int>, `1854` <int>, `1855` <int>, `1856` <int>, `1857` <int>,
-## #   `1858` <int>, `1859` <int>, `1860` <int>, `1861` <int>, `1862` <int>,
-## #   `1863` <int>, `1864` <int>, `1865` <int>, `1866` <int>, `1867` <int>,
-## #   `1868` <int>, `1869` <int>, `1870` <int>, `1871` <int>, `1872` <int>,
-## #   `1873` <int>, `1874` <int>, `1875` <int>, `1876` <int>, `1877` <int>,
-## #   `1878` <int>, `1879` <int>, `1880` <int>, `1881` <int>, `1882` <int>,
-## #   `1883` <int>, `1884` <int>, `1885` <int>, `1886` <int>, `1887` <int>,
-## #   `1888` <int>, `1889` <int>, `1890` <int>, `1891` <int>, `1892` <int>,
-## #   `1893` <int>, `1894` <int>, `1895` <int>, `1896` <int>, `1897` <int>,
-## #   `1898` <int>, `1899` <int>, `1900` <int>, `1901` <int>, `1902` <int>,
-## #   `1903` <int>, `1904` <int>, `1905` <int>, `1906` <int>, `1907` <int>,
-## #   `1908` <int>, `1909` <int>, ...
+## # ... with 291 more variables: 1810 <int>, 1811 <int>, 1812 <int>, 1813 <int>,
+## #   1814 <int>, 1815 <int>, 1816 <int>, 1817 <int>, 1818 <int>, 1819 <int>,
+## #   1820 <int>, 1821 <int>, 1822 <int>, 1823 <int>, 1824 <int>, 1825 <int>,
+## #   1826 <int>, 1827 <int>, 1828 <int>, 1829 <int>, 1830 <int>, 1831 <int>,
+## #   1832 <int>, 1833 <int>, 1834 <int>, 1835 <int>, 1836 <int>, 1837 <int>,
+## #   1838 <int>, 1839 <int>, 1840 <int>, 1841 <int>, 1842 <int>, 1843 <int>,
+## #   1844 <int>, 1845 <int>, 1846 <int>, 1847 <int>, 1848 <int>, 1849 <int>,
+## #   1850 <int>, 1851 <int>, 1852 <int>, 1853 <int>, 1854 <int>, 1855 <int>,
+## #   1856 <int>, 1857 <int>, 1858 <int>, 1859 <int>, 1860 <int>, 1861 <int>,
+## #   1862 <int>, 1863 <int>, 1864 <int>, 1865 <int>, 1866 <int>, 1867 <int>,
+## #   1868 <int>, 1869 <int>, 1870 <int>, 1871 <int>, 1872 <int>, 1873 <int>,
+## #   1874 <int>, 1875 <int>, 1876 <int>, 1877 <int>, 1878 <int>, 1879 <int>,
+## #   1880 <int>, 1881 <int>, 1882 <int>, 1883 <int>, 1884 <int>, 1885 <int>,
+## #   1886 <int>, 1887 <int>, 1888 <int>, 1889 <int>, 1890 <int>, 1891 <int>,
+## #   1892 <int>, 1893 <int>, 1894 <int>, 1895 <int>, 1896 <int>, 1897 <int>,
+## #   1898 <int>, 1899 <int>, 1900 <int>, 1901 <int>, 1902 <int>, 1903 <int>,
+## #   1904 <int>, 1905 <int>, 1906 <int>, 1907 <int>, 1908 <int>, 1909 <int>, ...
 ```
 
 
@@ -416,13 +403,9 @@ population2%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 195 x 2
 ##    country             n_country
-##    <fct>                   <int>
+##  * <fct>                   <int>
 ##  1 Afghanistan                 1
 ##  2 Albania                     1
 ##  3 Algeria                     1
@@ -450,13 +433,9 @@ income2%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 193 x 2
 ##    country             n_country
-##    <fct>                   <int>
+##  * <fct>                   <int>
 ##  1 Afghanistan                 1
 ##  2 Albania                     1
 ##  3 Algeria                     1
@@ -483,13 +462,9 @@ life_expectancy2%>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 187 x 2
 ##    country             n_country
-##    <fct>                   <int>
+##  * <fct>                   <int>
 ##  1 Afghanistan                 1
 ##  2 Albania                     1
 ##  3 Algeria                     1
@@ -521,10 +496,6 @@ life_expectancy2%>%
   summarize(timespan_avg=mean(mean_life_expectancy, na.rm=T))%>%
   arrange(desc(timespan_avg))%>%
   top_n(5)
-```
-
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```
@@ -568,10 +539,6 @@ life_expectancy2%>%
   summarize(timespan_avg=mean(mean_life_expectancy, na.rm=T))%>%
   arrange(timespan_avg)%>%
   top_n(-5)
-```
-
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```
@@ -722,6 +689,10 @@ population2%>%
 
 ## *Income*
 *The units used for income are gross domestic product per person adjusted for differences in purchasing power in international dollars.*
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 8. (4 points) As in the previous questions, which countries have experienced the biggest growth in per person GDP. Show this as a table and then plot the changes for the top 5 countries. With a bit of research, you should be able to explain the dramatic downturns of the wealthiest economies that occurred during the 1980's.
 
@@ -772,6 +743,7 @@ income2%>%
 ```
 
 ![](midterm_2_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+</div>
 
 
 

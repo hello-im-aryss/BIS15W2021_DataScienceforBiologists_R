@@ -252,6 +252,10 @@ population2%>%
 
 ## *Income*
 *The units used for income are gross domestic product per person adjusted for differences in purchasing power in international dollars.*
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 #### 8. (4 points) As in the previous questions, which countries have experienced the biggest growth in per person GDP. Show this as a table and then plot the changes for the top 5 countries. With a bit of research, you should be able to explain the dramatic downturns of the wealthiest economies that occurred during the 1980's.
 ```{r}
@@ -279,6 +283,7 @@ income2%>%
        y="Mean Income",
        color= "Country")
 ```
+</div>
 
 
 
