@@ -1,0 +1,210 @@
+---
+title: "Lab 14 HW"
+author: "Aryss Hearne"
+date: "3/3/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+library(qtl)
+library(qtlcharts)
+library(tidyverse)
+library(ggmap)
+library(albersusa)
+library(ggthemes)
+```
+
+
+#### 1. We have a satellite collars on a number of different individuals and want to be able to quickly look at all of their recent movements at once. Please load all the data files from `us_individual_collar_data` and use for loop to create plots for all different individuals of the path they move on longitude and latitude.
+
+
+```{r}
+us_ic_data <- list.files(path = "data/us_individual_collar_data", full.names=T)
+us_ic_data
+```
+
+```{r}
+paths<-for (i in 1: length(us_ic_data)){
+  us_individual <- as.data.frame(read_csv(us_ic_data[i]))
+  print(
+    ggplot(us_individual, aes(x=long, y=lat))+
+      geom_path()+
+      geom_point()+
+      
+      theme_solarized_2()+
+      theme(legend.position="right",
+            axis.text.x=element_text(angle=60, hjust=1))+
+      labs(title=us_ic_data[i],
+           x="Longitude",
+           y="Latitude")
+  )
+}
+```
+
+
+#### 2. Please load all the data files from `us_individual_collar_data` and combine all data into one data frame. Create a summary to show what is the maximum and minimum of recorded data points on longitude and latitude.
+
+```{r}
+us_ind_collar<-lapply(us_ic_data, read_csv)
+```
+
+```{r}
+names<-strsplit(us_ic_data, split=".txt")
+names2<-unlist(names)
+names(us_ind_collar)<-names2
+full_data<-bind_rows(us_ind_collar)
+full_data
+```
+
+```{r}
+full_data%>%
+  summarise(max_long=max(long),
+            min_long=min(long),
+            max_lat=max(lat),
+            min_lat=min(lat))
+```
+
+
+#### 3. Use the range of the latitude and longitude from Q2 to build an appropriate bounding box for your map and load a map from stamen in a terrain style projection and display the map. Then, build a final map that overlays the recorded path from Q1.
+
+```{r}
+lat<-c(26.6116,41.58802)
+long<-c(-122.6017, -106.3343)
+bbox<-make_bbox(long,lat,f=0.05)
+collar_map<-get_map(bbox, maptype = "terrain", source="stamen")
+```
+
+```{r message=FALSE, warning=FALSE}
+i <- 1
+for (i in 1:length(us_ic_data)){
+  us_individual <- as.data.frame(read_csv(us_ic_data[i]))
+  print(
+    ggmap(collar_map)+
+      geom_path(data=us_individual, aes(long,lat, color=time, size=.08, alpha=0.3))+
+      geom_point(data=us_individual, aes(long,lat))+
+      scale_size(range = c(4),
+             guide = "none") +
+      theme_solarized_2()+
+      theme(legend.position="left",
+            axis.text.x=element_text(angle=60, hjust=1))+
+      labs(title = "Collared Individual Path", 
+           x="Longitude", 
+           y="Latitude",
+           color="Date",
+           alpha=NULL,
+           size=NULL)
+  )
+}
+```
+
+
+#### 4.  Create a summary of the hypertension data. How many individuals and phenotypes are included in this data set? How many gene markers and chromosomes are included in this data set? Please create a table to show the number of markers on each chromosome.
+
+
+```{r}
+data(hyper)
+```
+
+```{r}
+summary(hyper)
+```
+```{r}
+nind(hyper)
+```
+
+```{r}
+nphe(hyper)
+```
+
+```{r}
+totmar(hyper)
+```
+
+```{r}
+nchr(hyper)
+```
+```{r}
+nmar(hyper)
+```
+```{r}
+plot(hyper)
+```
+
+
+#### 5. Please make an interactive genetic map of markers for the hypertension data.
+
+
+```{r}
+iplotMap(hyper)
+```
+
+#### 6. Make a plot shows the pattern of missing genotype data in the hypertension dataset. Please reorder the recorded individuals according to their blood pressure phenotypes. Is there a specific pattern of missing genotype? Please explain it.
+
+```{r}
+plotMissing(hyper, main="")
+```
+
+```{r}
+plotMissing(hyper, main="", reorder=1)
+```
+
+
+###### These plots tell us which genotypes are missing. The reordered versions tell us specifically where certain phenotypic data is missing for specific individuals. Here it looks like individuals 50-200 are missing a ton of data.  
+
+
+#### 7. Based on your answer from previous question, you probably noticed that there are gene markers without data. Please use the function `drop.nullmarkers` to remove markers that have no genotype data. After this, make a new summary to show the number of markers on each chromosome. How many gene markers were dropped? Where were the dropped markers located? Please use the data without nullmarkers for the following questions.
+
+
+```{r}
+hyper2<-drop.nullmarkers(hyper)
+```
+
+```{r}
+summary(hyper2)
+```
+
+```{r}
+summary(hyper)
+```
+
+###### Only one marker was dropped on chromosome 14.
+
+#### 8.  Please conduct single-QTL analysis and create a table to give the maximum LOD score on each chromosome based on their blood pressure phenotypes. Which gene marker has the higiest LOD score? Which chromosome contains the gene marker that has the highest LOD score? Then, creates an interactive chart with LOD curves from a genome scan for all chromosomes.
+
+
+```{r}
+bp<-calc.genoprob(hyper,step=1)
+qtl_data_hyper<-scanone(hyper)
+summary(qtl_data_hyper)
+```
+
+###### Looks like chromosome 4 (D4Mit164) has the gene with the highest LOD. 
+
+
+#### 9. Based on your genome scan results, create a table which only includes those chromosomes with LOD > 1. Creates an interactive chart with LOD curves linked to estimated QTL effects for only those chromosomes with LOD > 1. Find the gene maker with the highest LOD score and describe how does the genetype of this marker influence the individual’s phenotype.
+
+
+```{r}
+cute_lil_plot<-iplotScanone(qtl_data_hyper, chr=c(1,2,4,5,6,15))
+cute_lil_plot
+```
+
+###### Higher LOD score gives us an indication of how likely it will be that an individual with homozygous expression at this gene will exhibit the phenotype of high blood pressure. 
+
+
+#### 10.Please save your interactive chart from Q9 as a html file `hyper_iplotScanone.html` and make sure your upload it to your github repository with your lab14 homework as well.
+
+```{r}
+htmlwidgets::saveWidget(cute_lil_plot, file="hyper_iplotScanone.html")
+```
+
