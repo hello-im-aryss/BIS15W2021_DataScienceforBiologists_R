@@ -1,0 +1,443 @@
+---
+title: "lab 14 warmup"
+author: "Aryss Hearne"
+date: "3/2/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggmap)
+library(lubridate)
+```
+
+```{r}
+x<-0
+  repeat{
+    x<-x+1
+    print(x)
+    if(x>=10){
+      break
+    }
+  }
+```
+
+```{r}
+data<-
+  data.frame(x1=1:5,
+             x2=6:10,
+             x3=11:15)
+data
+```
+
+```{r}
+data1<-data
+i<-1
+repeat{
+  data1[,i]<-data1[,i]+100
+  i<-i+1
+  if(i>2){
+    break
+  }
+}
+data1
+```
+
+# Practice: Please write a repeat loop to change all numeric data from in centimeters to millimeters.
+
+```{r}
+data(iris)
+```
+
+```{r}
+iris1<-iris
+i<-1
+repeat{
+  iris1[,i]<-iris1[,i]*100
+  i<-i+1
+  if(i>4){
+    break
+  }
+}
+iris1
+```
+
+
+# While-Loops
+
+
+
+
+```{r}
+x<-0
+while(x<10){
+  x<-x+1
+  print(x)
+}
+```
+
+```{r}
+data2<-data
+data2
+```
+
+```{r}
+i<-1
+while(i<=2){
+  data2[,i]<-data2[,i]+100
+  i<-i+1
+}
+data2
+```
+
+# Practice:  Please write a while loop to change all numeric data from in centimeters to millimeters.
+
+```{r}
+iris3<-iris
+```
+
+
+```{r}
+i<-1
+while(i<=4){
+  iris3[,i]<-iris3[,i]*100
+  i<-i+1
+}
+iris3
+```
+
+# For-Loop
+
+```{r}
+for(i in 1:10){
+  print(i)
+}
+```
+```{r}
+data3<-data
+data3
+```
+
+```{r}
+for(i in 1:2){
+  data3[,i]<-data3[,i]+100
+}
+data3
+```
+
+# Practice: Please write a for loop to change only width data from in centimeters to millimeters.
+
+
+```{r}
+iris4<-iris
+```
+
+```{r}
+for(i in 1:4){
+  iris4[,i]<-iris4[,i]*100
+}
+iris4
+```
+
+# example 2: Looping over files
+
+```{r}
+data_files <- list.files("data/locations", pattern = "locations-2*", full.names = TRUE)
+data_files
+```
+
+```{r}
+results<-vector(mode="integer", length=length(data_files))
+
+for(i in 1:length(data_files)){
+  data0<-read_csv(data_files[i])
+  count<-nrow(data0)
+  results[i]<-count
+}
+results
+```
+
+```{r}
+results<-data.frame(file_name=vector(mode="character", length=length(data_files)),
+                    count=vector(mode = "integer", length=length(data_files)))
+```
+
+
+```{r}
+data_files3<-list.files("data/individual_collar_data", full.names=T)
+data_files3
+```
+
+```{r}
+for(i in 1:length(data_files3)){
+  data0<-as.data.frame(read_csv(data_files3[i]))
+  print(
+    ggplot(data0, aes(x=long, y=lat))+
+      geom_path()+
+      geom_point()+
+      labs(title=data_files3[i],x="longitude", y="latitude")
+  )
+}
+```
+```{r}
+ if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+ BiocManager::install()                            # To install core packages or update installed packages
+ BiocManager::install(c("ShortRead", "Biostrings"))# Install specific packages
+library(ShortRead)
+library(Biostrings)
+```
+
+```{r}
+reads <- readFasta("data/archaea-dna/a-saccharovorans.fasta")
+seq <- sread(reads)
+base_freq <- alphabetFrequency(seq)
+gc_content <- (base_freq[1, "G"] + base_freq[1, "C"]) / sum(base_freq) * 100
+gc_content
+```
+```{r}
+data_files2 <- list.files("data/archaea-dna")
+data_files2
+```
+```{r}
+GC_results <- data.frame(file_name = vector(mode = "character", length = length(data_files2)),
+                         gc_content = vector(mode = "integer", length = length(data_files2)))
+```
+
+
+```{r}
+#install.packages("qtl")
+#nstall.packages("qtlcharts")
+library(qtl)
+library(qtlcharts)
+knitr::opts_chunk$set(fig.width = 8, fig.height = 6, message=F)
+```
+
+
+```{r}
+?read.cross
+```
+
+```{r}
+sug<-read.cross("csv", "https://rqtl.org", "sug.csv",
+                genotypes=c("CC","CB","BB"), alleles=c("C","B"))
+```
+
+```{r}
+summary(sug)
+```
+
+```{r}
+head(sug$pheno)
+```
+
+```{r}
+nind(sug)
+```
+
+```{r}
+nphe(sug)
+```
+
+```{r}
+nchr(sug)
+```
+
+```{r}
+totmar(sug)
+```
+
+```{r}
+nmar(sug)
+```
+
+```{r}
+plot(sug)
+```
+
+```{r}
+plotMissing(sug, main="")
+```
+
+```{r}
+plotMissing(sug, main="", reorder=1)
+```
+
+```{r}
+plotMap(sug)
+```
+
+```{r}
+plotMap(sug, show.marker.names=T)
+```
+
+```{r}
+plotPheno(sug, pheno.col=1)
+```
+
+```{r}
+plotPheno(sug,pheno.col=2)
+```
+
+```{r}
+plotPheno(sug, pheno.col=3)
+```
+
+```{r}
+plotPheno(sug, pheno.col = 4)
+```
+
+```{r}
+iplotMap(sug)
+```
+
+```{r}
+iplotCorr(sug$pheno, chartOpts=list(height=300, width=600, scatcolors="pink"))
+```
+
+```{r}
+iplotCorr(sug$pheno, chartOpts=list(height=300, width=600, scatcolors="pink"))
+```
+
+```{r}
+corrplot<-iplotCorr(sug$pheno, chartOpts=list(height=300,  width=600, scatcolors="pink"))
+```
+```{r}
+htmlwidgets::saveWidget(corrplot, file="iplotCorr_example.html")
+```
+
+
+#Quantitative Trait Locus Analysis
+
+```{r}
+sug<-calc.genoprob(sug, step=1)
+out.em<-scanone(sug)
+```
+
+```{r}
+out.em2<-scanone(sug, pheno.col = 1:4)
+```
+```{r}
+summary(out.em)
+```
+```{r}
+summary(out.em2)
+```
+
+```{r}
+summary(out.em, threshold=3)
+```
+
+```{r}
+plot(out.em)
+```
+
+```{r}
+plot(out.em, chr=c(7,15), ylab="LOD Score")
+```
+
+```{r}
+iplotScanone(out.em)
+```
+
+```{r}
+iplotScanone(out.em, chr=c(7,15))
+```
+
+```{r}
+iplotScanone(out.em, sug)
+```
+
+```{r}
+iplotScanone(out.em, sug, chr=c(7,15))
+```
+```{r}
+data(grav)
+```
+
+
+# Practice
+#### 1. Get a quick summary of the grav data.
+
+
+
+```{r}
+summary(grav)
+```
+```{r}
+names(grav)
+```
+
+#### 2. Make an genetic map of markers for the grav data.
+
+```{r}
+iplotMap(grav)
+```
+
+#### 3. Plot a heat map of the correlation matrix for the phenotype at all pairs of times, linked to scatterplots of the phenotypes.
+
+
+
+```{r}
+iplotCorr(grav$pheno, chartOpts=list(height=300, width=600, scatcolors="pink"))
+```
+
+
+# iplotCurves
+
+
+```{r}
+iplotCurves(grav$pheno)
+```
+
+```{r}
+times1<-as.numeric(sub("T","",phenames(grav)))/60
+times1
+```
+```{r}
+times <-attr(grav, "time")
+times
+```
+```{r}
+phe <- grav$pheno
+head(phe)
+```
+```{r}
+iplotCurves(phe, times)
+```
+
+```{r}
+iplotCurves(phe, times, chartOpts=list(curves_xlab="Time (hrs)",
+                                       curves_ylab="Response"))
+```
+
+
+```{r}
+iplotCurves(phe, times, phe[,c("T30", "T240")], phe[,c("T240", "T480")],
+            chartOpts=list(curves_xlab="Time", curves_ylab="Root tip angle",
+                           scat1_xlab="Angle at 30 min", scat1_ylab="Angle at 4 hrs",
+                           scat2_xlab="Angle at 4 hrs", scat2_ylab="Angle at 8 hrs"))
+```
+
+```{r}
+grav <- calc.genoprob(grav, step=1)
+out.em<-scanone(grav, pheno.col=1:nphe(grav))
+summary(out.em)
+```
+
+```{r}
+times_m <- c("T30", "T240", "T480")
+times_clear <- c("30 mins", "4 hours", "8 hours")
+times_number <- match(times_m, phenames(grav))
+
+for(i in 1:length(times_m))
+    print(iplotScanone(out.em, lodcolumn=times_number[i], chartOpts=list(title=times_clear[i])))
+
+```
+
